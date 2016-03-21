@@ -1,1 +1,2 @@
-species(pelecanus).
+species(erythrorhynchos).
+species(lentiginosus).
