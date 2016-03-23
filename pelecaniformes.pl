@@ -120,6 +120,9 @@ hasCommonName(plegadis, falcinellus, glossyIbis).
 hasCommonName(plegadis, chihi, whiteFacedIbis).
 hasCommonName(platalea, ajaja, roeateSpoonbill).
 
+
+% just realized, we dont have to hardcode the rest after this comment
+
 hasSciName(roeateSpoonbill, platalea_ajaja).
 hasSciName(whiteFacedIbis, plegadis_chihi).
 hasSciName(glossyIbis, plegadis_falcinellus).
