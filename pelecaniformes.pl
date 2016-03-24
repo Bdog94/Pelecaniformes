@@ -174,9 +174,9 @@ hasCompoundName(plegadis, falcinellus, plegadis_falcinellus).
 hasCompoundName(plegadis, chihi, plegadis_chihi).
 hasCompoundName(platalea, ajaja, platalea_ajaja).
 
-
-
-
+%isaStrict(A, B) :- hasParent(A,pelecaniformes).
+%isaStrict(A, B) :- hasParent(A, B).
+isaStrict(A, B) :- hasParent(A, B), hasParent(B,C), isaStrict(B,C).
 
 
 
