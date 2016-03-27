@@ -174,9 +174,19 @@ hasCompoundName(plegadis, falcinellus, plegadis_falcinellus).
 hasCompoundName(plegadis, chihi, plegadis_chihi).
 hasCompoundName(platalea, ajaja, platalea_ajaja).
 
-%isaStrict(A, B) :- hasParent(A,pelecaniformes).
-%isaStrict(A, B) :- hasParent(A, B).
-isaStrict(A, B) :- hasParent(A, B), hasParent(B,C), isaStrict(B,C).
+
+isaStrict(A, B) :- hasParent(A, C), hasParent(C, D), hasParent(D, B).
+isaStrict(A, B) :- hasParent(A, C), hasParent(C, B).
+isaStrict(A, B) :- hasParent(A,B).
+%isaStrict(A,B) :- hasParent(A, pelecaniformes).
+%isaStrict(A,B) :- family(B),  isaStrict(A, C is hasParent(C,B)).
+%isaStrict(A,B) :- genus(B), isaStrict(A, C is hasParent(C,B)).
+%isaStrict(A,B) :- hasParent(A, B). 
+
+
+
+
+isa(A,B) :- isaStrict(A,B).
 
 %/////////////////////////////
 habitat(pelecanus_erythrorhynchos, lakePond).
