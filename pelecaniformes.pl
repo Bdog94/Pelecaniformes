@@ -196,11 +196,16 @@ synonym(A,B)	:-	(hasCommonName(A,B);hasCommonName(B,A);(hasCommonName(X,A),hasCo
 %Case where one is a common Name
 %Case where one is a common Name
 %Case where neither is a common Name
-isa(A,B) :- synonym(A,C), synonym(B,D), isaStrict(C,D), C \==D.
-isa(A,B) :- synonym(A,C), isaStrict(C,B), C\==B.
-isa(A,B) :- synonym(B,D), isaStrict(A,D), A\==D.
-isa(A,B) :- hasSciName(A,E), hasSciName(B,F), isaStrict(E,F), E\==F.
-isa(A,B) :- hasSciName(A,E), isaStrict(E,B), E\==B.
+isa(C, D) : C is isConverted(A,C), D is isConverted(B,D), isaStrict(C,D).
+isa(A,B) :- A is hasSciName(X, A), B is hasSciName(Y,B), isaStrict(
+isa(A,B) :- isaStrict(A,B).
+%isa(A,B) :- synonym(A,C), synonym(B,D), isaStrict(C,D), C \==D.
+%isa(A,B) :- synonym(A,C), isaStrict(C,B), C\==B.
+%isa(A,B) :- synonym(B,D), isaStrict(A,D), A\==D.
+%isa(A,B) :- hasSciName(A,E), hasSciName(B,F), isaStrict(E,F), E\==F.
+%isa(A,B) :- hasSciName(A,E), isaStrict(E,B), E\==B.
+
+isConverted(A,B) :- hasCommonName(A,B).
 
 
 isaNonSpeciesName(X,Y) :- hasCommonName(A, X), hasCommonName(B,Y), isaStrict(X is A,Y is B).
