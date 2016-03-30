@@ -178,16 +178,27 @@ hasCompoundName(platalea, ajaja, platalea_ajaja).
 isaStrict(A, B) :- hasParent(A, C), hasParent(C, D), hasParent(D, B).
 isaStrict(A, B) :- hasParent(A, C), hasParent(C, B).
 isaStrict(A, B) :- hasParent(A,B).
-%isaStrict(A,B) :- hasParent(A, pelecaniformes).
-%isaStrict(A,B) :- family(B),  isaStrict(A, C is hasParent(C,B)).
-%isaStrict(A,B) :- genus(B), isaStrict(A, C is hasParent(C,B)).
-%isaStrict(A,B) :- hasParent(A, B). 
+
+
+isNonSpeciesName(A) :- hasCompoundName( _, _, A); hasCommonName(_, _, A); hasCommonName( _ , A); hasSciName(A, _).
+
+
+isNonSpeciesName( A ,B) :- isNonSpeciesName(A), isNonSpeciesName(B).
+						 
 
 
 
 
-isa(A,B) :- isaStrict(A,B).
 
+%Case where both are commonNames...
+%Case where one is a common Name
+%Case where one is a common Name
+%Case where neither is a common Name
+isa( A , B ) :- isNonSpeciesName(A,B), isNonSpeciesName(A,B).
+
+
+isaNonSpeciesName(X,Y) :- hasCommonName(A, X), hasCommonName(B,Y), isaStrict(X is A,Y is B).
+isaNonSpeciesName(X,Y) :- hasCommonName(A_1, _, X), hasCommonName(B_2, _, Y), isaStrict( X is A_1, Y is B_2).
 %/////////////////////////////
 habitat(pelecanus_erythrorhynchos, lakePond).
 habitat(pelecanus_occidentalis, ocean).
