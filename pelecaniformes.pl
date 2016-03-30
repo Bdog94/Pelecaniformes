@@ -185,7 +185,7 @@ isNonSpeciesName(A) :- hasCompoundName( _, _, A); hasCommonName(_, _, A); hasCom
 
 isNonSpeciesName( A ,B) :- isNonSpeciesName(A), isNonSpeciesName(B).
 						 
-
+synonym(A,B)	:-	(hasCommonName(A,B);hasCommonName(B,A);(hasCommonName(X,A),hasCommonName(X,B),A\==B)).
 
 
 
