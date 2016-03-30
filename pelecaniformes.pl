@@ -179,6 +179,8 @@ isaStrict(A, B) :- hasParent(A, C), hasParent(C, D), hasParent(D, B).
 isaStrict(A, B) :- hasParent(A, C), hasParent(C, B).
 isaStrict(A, B) :- hasParent(A,B).
 
+% countSpecies(B, N) :-  N_1 is len[A | hasParent(A,B)] + N_2 is countSpecies(A,N_2), N = (N_1 + N_2).
+
 
 isNonSpeciesName(A) :- hasCompoundName( _, _, A); hasCommonName(_, _, A); hasCommonName( _ , A); hasSciName(A, _).
 
@@ -194,7 +196,11 @@ synonym(A,B)	:-	(hasCommonName(A,B);hasCommonName(B,A);(hasCommonName(X,A),hasCo
 %Case where one is a common Name
 %Case where one is a common Name
 %Case where neither is a common Name
-isa( A , B ) :- isNonSpeciesName(A,B), isNonSpeciesName(A,B).
+isa(A,B) :- synonym(A,C), synonym(B,D), isaStrict(C,D), C \==D.
+isa(A,B) :- synonym(A,C), isaStrict(C,B), C\==B.
+isa(A,B) :- synonym(B,D), isaStrict(A,D), A\==D.
+isa(A,B) :- hasSciName(A,E), hasSciName(B,F), isaStrict(E,F), E\==F.
+isa(A,B) :- hasSciName(A,E), isaStrict(E,B), E\==B.
 
 
 isaNonSpeciesName(X,Y) :- hasCommonName(A, X), hasCommonName(B,Y), isaStrict(X is A,Y is B).
