@@ -183,6 +183,7 @@ isaStrict(A, B) :- hasParent(A,B).
 countSpecies(B, N) :- hasCompoundName(_,_,B) -> N is 1.
 countSpecies(B, N) :- genus(B) -> findall(X, hasParent(X,B), L) -> length(L, Y), N is Y.
 countSpecies(B, N) :- (family(B); order(B)) -> findall(X, hasParent(X,B), L) -> maplist(countSpecies, L, L1) -> listsum(L1, N).
+countSpecies(B, 0).
 
 listsum([X], X).                  
 listsum([H|L], X):- listsum(L, Y), X is (H + Y).
