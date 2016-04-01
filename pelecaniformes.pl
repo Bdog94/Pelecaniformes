@@ -30,6 +30,7 @@ species(rufescens).
 species(ibis).
 species(virescens).
 species(nycticorax).
+species(violacea).
 species(albus).
 species(falcinellus).
 species(chihi).
@@ -174,13 +175,17 @@ hasCompoundName(plegadis, falcinellus, plegadis_falcinellus).
 hasCompoundName(plegadis, chihi, plegadis_chihi).
 hasCompoundName(platalea, ajaja, platalea_ajaja).
 
-
+isaStrict(A, B) :- A == B.
 isaStrict(A, B) :- hasParent(A, C), hasParent(C, D), hasParent(D, B).
 isaStrict(A, B) :- hasParent(A, C), hasParent(C, B).
 isaStrict(A, B) :- hasParent(A,B).
 
-% countSpecies(B, N) :-  N_1 is len[A | hasParent(A,B)] + N_2 is countSpecies(A,N_2), N = (N_1 + N_2).
+countSpecies(B, N) :- hasCompoundName(_,_,B) -> N is 1.
+countSpecies(B, N) :- genus(B) -> findall(X, hasParent(X,B), L) -> length(L, Y), N is Y.
+countSpecies(B, N) :- (family(B); order(B)) -> findall(X, hasParent(X,B), L) -> maplist(countSpecies, L, L1) -> listsum(L1, N).
 
+listsum([X], X).                  
+listsum([H|L], X):- listsum(L, Y), X is (H + Y).
 
 isNonSpeciesName(A) :- hasCompoundName( _, _, A); hasCommonName(_, _, A); hasCommonName( _ , A); hasSciName(A, _).
 
@@ -196,16 +201,19 @@ synonym(A,B)	:-	(hasCommonName(A,B);hasCommonName(B,A);(hasCommonName(X,A),hasCo
 %Case where one is a common Name
 %Case where one is a common Name
 %Case where neither is a common Name
-isa(C, D) : C is isConverted(A,C), D is isConverted(B,D), isaStrict(C,D).
-isa(A,B) :- A is hasSciName(X, A), B is hasSciName(Y,B), isaStrict(
+isa(A,B) :- isConverted(A, C), isConverted(B,D), isaStrict(C,D), C\==D.
+isa(A,B) :- isConverted(A, C), isaStrict(C,B).
+isa(A,B) :- isConverted(B, D), isaStrict(A,D).
 isa(A,B) :- isaStrict(A,B).
+
+%isa(A,B) :- A is hasSciName(X, A), B is hasSciName(Y,B), isaStrict(X,Y).
 %isa(A,B) :- synonym(A,C), synonym(B,D), isaStrict(C,D), C \==D.
 %isa(A,B) :- synonym(A,C), isaStrict(C,B), C\==B.
 %isa(A,B) :- synonym(B,D), isaStrict(A,D), A\==D.
 %isa(A,B) :- hasSciName(A,E), hasSciName(B,F), isaStrict(E,F), E\==F.
 %isa(A,B) :- hasSciName(A,E), isaStrict(E,B), E\==B.
 
-isConverted(A,B) :- hasCommonName(A,B).
+isConverted(A,B) :- hasCommonName(A,B); hasCompoundName(_, B,A).
 
 
 isaNonSpeciesName(X,Y) :- hasCommonName(A, X), hasCommonName(B,Y), isaStrict(X is A,Y is B).
