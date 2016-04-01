@@ -180,9 +180,12 @@ isaStrict(A, B) :- hasParent(A, C), hasParent(C, D), hasParent(D, B).
 isaStrict(A, B) :- hasParent(A, C), hasParent(C, B).
 isaStrict(A, B) :- hasParent(A,B).
 
-% countSpecies(B, N) :-  N_1 is len[A | hasParent(A,B)] + N_2 is countSpecies(A,N_2), N = (N_1 + N_2).
 countSpecies(B, N) :- hasCompoundName(_,_,B) -> N is 1.
-countSpecies(B, N) :- genus(B) -> N is 2.%(len(L, L is findall(X, hasParent(X,B), L))).
+countSpecies(B, N) :- genus(B) -> findall(X, hasParent(X,B), L) -> length(L, Y), N is Y.
+countSpecies(B, N) :- (family(B); order(B)) -> findall(X, hasParent(X,B), L) -> maplist(countSpecies, L, L1) -> list_sum(L1, N_1), N is N_1.
+
+listsum([], X).                  
+listsum([H|L], X):- X is H + listsum(L, X).
 
 isNonSpeciesName(A) :- hasCompoundName( _, _, A); hasCommonName(_, _, A); hasCommonName( _ , A); hasSciName(A, _).
 
