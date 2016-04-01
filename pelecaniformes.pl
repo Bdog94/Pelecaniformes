@@ -213,7 +213,8 @@ isa(A,B) :- isaStrict(A,B).
 %isa(A,B) :- hasSciName(A,E), hasSciName(B,F), isaStrict(E,F), E\==F.
 %isa(A,B) :- hasSciName(A,E), isaStrict(E,B), E\==B.
 
-isConverted(A,B) :- hasCommonName(A,B); hasCompoundName(_, B,A).
+isConverted(A,B) :- hasCommonName(A,B).
+isConverted(A,B) :- hasCompoundName(_, B,A).
 
 
 isaNonSpeciesName(X,Y) :- hasCommonName(A, X), hasCommonName(B,Y), isaStrict(X is A,Y is B).
