@@ -180,11 +180,16 @@ isaStrict(A, B) :- hasParent(A, C), hasParent(C, D), hasParent(D, B).
 isaStrict(A, B) :- hasParent(A, C), hasParent(C, B).
 isaStrict(A, B) :- hasParent(A,B).
 
+%Counts how many species there are for B. N is the number that belong to it
+%If B is a compound name, then N is 1.
+%If B is an order, family, or genus name, then N is the number of species belonging to them
+%If B is anything else, N is 0.
 countSpecies(B, N) :- hasCompoundName(_,_,B) -> N is 1.
 countSpecies(B, N) :- genus(B) -> findall(X, hasParent(X,B), L) -> length(L, Y), N is Y.
 countSpecies(B, N) :- (family(B); order(B)) -> findall(X, hasParent(X,B), L) -> maplist(countSpecies, L, L1) -> listsum(L1, N).
 countSpecies(B, 0).
 
+%Sums a list of numbers together. X is the sum of the list
 listsum([X], X).                  
 listsum([H|L], X):- listsum(L, Y), X is (H + Y).
 
