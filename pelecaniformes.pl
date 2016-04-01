@@ -321,3 +321,5 @@ conservation(eudocimus_albus, lc).
 conservation(plegadis_falcinellus, lc).
 conservation(plegadis_chihi, lc).
 conservation(platalea_ajaja, lc).
+
+%commit boosting
