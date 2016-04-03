@@ -22,6 +22,7 @@ species(erythrorhynchos).
 species(lentiginosus).
 species(exilis).
 species(herodias).
+species(thula).
 species(alba).
 species(thulaegretta).
 species(caerulea).
@@ -175,10 +176,22 @@ hasCompoundName(plegadis, falcinellus, plegadis_falcinellus).
 hasCompoundName(plegadis, chihi, plegadis_chihi).
 hasCompoundName(platalea, ajaja, platalea_ajaja).
 
-isaStrict(A, B) :- A == B.
-isaStrict(A, B) :- hasParent(A, C), hasParent(C, D), hasParent(D, B).
-isaStrict(A, B) :- hasParent(A, C), hasParent(C, B).
-isaStrict(A, B) :- hasParent(A,B).
+%isaStrict(A, B) :- hasCompoundName(_, X, A), hasCompoundName(_, Y, B), isaStrict(X,Y).
+%isaStrict(A, B) :- hasCompoundName(_, X, A), isaStrict(X,B).
+%isaStirct(A, B) :- hasCompountName(_, Y, B), isaStrict(A,Y).
+
+
+isaStrict(A, B) :- convertToSpeciesName(A,X), convertToSpeciesName(B,Y), \+ species(A),  isaStrictActual(X,Y).
+isaStrict(A, B) :- convertToSpeciesName(A,X), isaStrictActual(X,B), \+ species(A).
+isaStrict(A, B) :- convertToSpeciesName(B,Y), isaStrictActual(A,Y), \+ species(A).
+
+isaStrictActual(A, B) :- A == B.
+isaStrictActual(A, B) :- hasParent(A, C), hasParent(C, D), hasParent(D, B).
+isaStrictActual(A, B) :- hasParent(A, C), hasParent(C, B).
+isaStrictActual(A, B) :- hasParent(A,B).
+
+convertToSpeciesName(A,B) :- hasCompoundName(_ , B, A).
+
 
 %Counts how many species there are for B. N is the number that belong to it
 %If B is a compound name, then N is 1.
@@ -207,7 +220,9 @@ synonym(A,B)	:-	(hasCommonName(A,B);hasCommonName(B,A);(hasCommonName(X,A),hasCo
 %Case where one is a common Name
 %Case where one is a common Name
 %Case where neither is a common Name
-isa(A,B) :- isConverted(A, C), isConverted(B,D), isaStrict(C,D), C\==D.
+
+
+isa(A,B) :- isConverted(A, C), isConverted(B,D), isaStrict(C,D).
 isa(A,B) :- isConverted(A, C), isaStrict(C,B).
 isa(A,B) :- isConverted(B, D), isaStrict(A,D).
 isa(A,B) :- isaStrict(A,B).
@@ -219,8 +234,9 @@ isa(A,B) :- isaStrict(A,B).
 %isa(A,B) :- hasSciName(A,E), hasSciName(B,F), isaStrict(E,F), E\==F.
 %isa(A,B) :- hasSciName(A,E), isaStrict(E,B), E\==B.
 
-isConverted(A,B) :- hasCommonName(A,B).
-isConverted(A,B) :- hasCompoundName(_, B,A).
+isConverted(A,B) :- hasCommonName(B,A), \+species(A).
+isConverted(A,B) :- hasCompoundName(_, B,A), \+species(A).
+
 
 
 isaNonSpeciesName(X,Y) :- hasCommonName(A, X), hasCommonName(B,Y), isaStrict(X is A,Y is B).
