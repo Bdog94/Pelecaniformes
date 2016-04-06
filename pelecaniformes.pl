@@ -135,7 +135,7 @@ hasSciName(cattleEgret, bubulcus_ibis).
 hasSciName(reddishEgret, egretta_rufescens).
 hasSciName(tricoloredHeron, egretta_tricolor).
 hasSciName(littleBlueHeron, egretta_caerulea).
-hasSciName(snowyEgret, egretta_thulaegretta).
+hasSciName(snowyEgret, egretta_thula).
 hasSciName(greatEgret, ardea_alba).
 hasSciName(greatBlueHeron, ardea_herodias).
 hasSciName(leastBittern, ixobrychus_exilis).
