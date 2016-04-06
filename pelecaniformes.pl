@@ -346,4 +346,13 @@ conservation(plegadis_falcinellus, lc).
 conservation(plegadis_chihi, lc).
 conservation(platalea_ajaja, lc).
 
+rangesTo(pelecanus_erythrorhynchos, alberta). 
+rangesTo(botaurus_lentiginosus, alberta). 
+rangesTo(ardea_herodias, alberta). 
+rangesTo(ardea_alba, canada). 
+rangesTo(bubulcus_ibis, canada). 
+rangesTo(butorides_virescens, canada). 
+rangesTo(nycticorax_nycticorax, alberta).
+
+
 %commit boosting
