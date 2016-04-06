@@ -203,7 +203,7 @@ rangeOf(ardeidae, canada).
 rangeOf(ardeidae, alberta).
 rangeOf(botaurus, canada).
 rangeOf(botaurus, alberta).
-rangeOf(ixobrychus, canada).
+rangeOf(bubulcus,canada).
 rangeOf(ardea, canada).
 rangeOf(ardea, alberta).
 rangeOf(butorides, canada).
@@ -213,13 +213,14 @@ rangeOf(pelecanus_erythrorhynchos, canada).
 rangeOf(pelecanus_erythrorhynchos, alberta).
 rangeOf(botaurus_lentiginosus, canada).
 rangeOf(botaurus_lentiginosus, alberta).
+rangeOf(bubulcus_ibis, canada).
 rangeOf(ardea_herodias, canada).
 rangeOf(ardea_herodias, alberta).
 rangeOf(ardea_alba, canada).
-rangeOf(ixobrychus_exilis, canada).
 rangeOf(butorides_virescens, canada).
 rangeOf(nycticorax_nycticorax, canada).
 rangeOf(nycticorax_nycticorax, alberta).
+
 
 %Counts how many species there are for B. N is the number that belong to it
 %If B is a compound name, then N is 1.
@@ -375,35 +376,5 @@ conservation(plegadis_falcinellus, lc).
 conservation(plegadis_chihi, lc).
 conservation(platalea_ajaja, lc).
 
-rangesTo(X,Y):- var(X) -> hasCompoundName(_,_,X), rangeOf(X,Y).
-rangesTo(X,Y):- atom(X) -> rangeOf(X,Y).
-
-rangeOf(pelecaniformes, canada).
-rangeOf(pelecaniformes, alberta).
-rangeOf(pelecanidae, canada).
-rangeOf(pelecanidae, alberta).
-rangeOf(pelecanus, canada).
-rangeOf(pelecanus, alberta).
-rangeOf(ardeidae, canada).
-rangeOf(ardeidae, alberta).
-rangeOf(botaurus, canada).
-rangeOf(botaurus, alberta).
-rangeOf(bobulcus,canada).
-rangeOf(ardea, canada).
-rangeOf(ardea, alberta).
-rangeOf(butorides, canada).
-rangeOf(nycticorax, canada).
-rangeOf(nycticorax, alberta).
-rangeOf(pelecanus_erythrorhynchos, canada).
-rangeOf(pelecanus_erythrorhynchos, alberta).
-rangeOf(botaurus_lentiginosus, canada).
-rangeOf(botaurus_lentiginosus, alberta).
-rangeOf(bobulcus_ibis,canada).
-rangeOf(ardea_herodias, canada).
-rangeOf(ardea_herodias, alberta).
-rangeOf(ardea_alba, canada).
-rangeOf(butorides_virescens, canada).
-rangeOf(nycticorax_nycticorax, canada).
-rangeOf(nycticorax_nycticorax, alberta).
 
 %commit boosting
