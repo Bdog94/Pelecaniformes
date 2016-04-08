@@ -177,7 +177,7 @@ hasCompoundName(platalea, ajaja, platalea_ajaja).
 
 %isaStrict(A, B) :- hasCompoundName(_, X, A), hasCompoundName(_, Y, B), isaStrict(X,Y).
 %isaStrict(A, B) :- hasCompoundName(_, X, A), isaStrict(X,B).
-%isaStirct(A, B) :- hasCompountName(_, Y, B), isaStrict(A,Y).
+%isaStirct(A, B) :- hasCompoundName(_, Y, B), isaStrict(A,Y).
 
 isaStrict(A, B) :- convertToSpeciesName(A,X), convertToSpeciesName(B,Y), \+ species(A), \+species(B),  isaStrictActual(X,Y).
 isaStrict(A, B) :- convertToSpeciesName(A,X), isaStrictActual(X,B), \+ species(A), \+ species(B).
@@ -248,6 +248,37 @@ isConverted(A,B) :- hasCompoundName(_, B,A), \+species(A).
 
 isaNonSpeciesName(X,Y) :- hasCommonName(A, X), hasCommonName(B,Y), isaStrict(X is A,Y is B).
 isaNonSpeciesName(X,Y) :- hasCommonName(A_1, _, X), hasCommonName(B_2, _, Y), isaStrict( X is A_1, Y is B_2).
+
+rangesTo(X,Y):- var(X) -> hasCompoundName(_,_,X), rangeOf(X,Y).
+rangesTo(X,Y):- atom(X) -> rangeOf(X,Y).
+
+rangeOf(pelecaniformes, canada).
+rangeOf(pelecaniformes, alberta).
+rangeOf(pelecanidae, canada).
+rangeOf(pelecanidae, alberta).
+rangeOf(pelecanus, canada).
+rangeOf(pelecanus, alberta).
+rangeOf(ardeidae, canada).
+rangeOf(ardeidae, alberta).
+rangeOf(botaurus, canada).
+rangeOf(botaurus, alberta).
+rangeOf(ixobrychus, canada).
+rangeOf(ardea, canada).
+rangeOf(ardea, alberta).
+rangeOf(butorides, canada).
+rangeOf(nycticorax, canada).
+rangeOf(nycticorax, alberta).
+rangeOf(pelecanus_erythrorhynchos, canada).
+rangeOf(pelecanus_erythrorhynchos, alberta).
+rangeOf(botaurus_lentiginosus, canada).
+rangeOf(botaurus_lentiginosus, alberta).
+rangeOf(ardea_herodias, canada).
+rangeOf(ardea_herodias, alberta).
+rangeOf(ardea_alba, canada).
+rangeOf(ixobrychus_exilis, canada).
+rangeOf(butorides_virescens, canada).
+rangeOf(nycticorax_nycticorax, canada).
+rangeOf(nycticorax_nycticorax, alberta).
 %/////////////////////////////
 habitat(pelecanus_erythrorhynchos, lakePond).
 habitat(pelecanus_occidentalis, ocean).
