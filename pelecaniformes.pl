@@ -437,7 +437,7 @@ behaviorOf(pelecanidae, surfaceDive).
 behaviorOf(ardeidae, stalking).
 behaviorOf(ardeidae, groundForager).
 behaviorOf(botaurus, stalking).
-behaviorOf(ixobrychus stalking).
+behaviorOf(ixobrychus, stalking).
 behaviorOf(ardea, stalking).
 behaviorOf(egretta, stalking).
 behaviorOf(bubulcus, groundForager).
@@ -489,10 +489,10 @@ conservationState(nyctanassa, lc).
 conservationState(eudocimus, lc).
 conservationState(plegadis, lc).
 conservationState(platalea, lc).
-conservationState(pelecanidae, lc)
-conservationState(ardeidae, lc)
-conservationState(ardeidae, nt)
-conservationState(threskiornithdae, lc)
-conservationState(pelecaniformes, lc)
+conservationState(pelecanidae, lc).
+conservationState(ardeidae, lc).
+conservationState(ardeidae, nt).
+conservationState(threskiornithdae, lc).
+conservationState(pelecaniformes, lc).
 
 %commit boosting
