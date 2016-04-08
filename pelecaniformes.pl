@@ -257,7 +257,7 @@ synonym(A,B)	:-	(hasCommonName(A,B);hasCommonName(B,A);(hasCommonName(X,A),hasCo
 %Case where neither is a common Name
 
 
-isa(A,B) :- \+ var(A), \+ var(B), hasCommonName(C,A), hasCommonName(D,B), \+ species(A),\+ species(B), isaStrict(C,D).
+isa(A,B) :- \+ var(A), hasCommonName(C,A), \+ var(B), hasCommonName(D,B), \+ species(A),\+ species(B), isaStrict(C,D).
 isa(A,B) :- \+ var(A), hasCommonName(C,A), \+ species(A),\+ species(B), isaStrict(C,B).
 isa(A,B) :- \+ var(B), hasCommonName(D,B), \+ species(A),\+ species(B), isaStrict(A,D).
 isa(A,B) :- \+ species(A), \+ species(B), isaStrict(A,B).
@@ -437,7 +437,7 @@ behaviorOf(pelecanidae, surfaceDive).
 behaviorOf(ardeidae, stalking).
 behaviorOf(ardeidae, groundForager).
 behaviorOf(botaurus, stalking).
-behaviorOf(ixobrychus stalking).
+behaviorOf(ixobrychus, stalking).
 behaviorOf(ardea, stalking).
 behaviorOf(egretta, stalking).
 behaviorOf(bubulcus, groundForager).
@@ -489,10 +489,10 @@ conservationState(nyctanassa, lc).
 conservationState(eudocimus, lc).
 conservationState(plegadis, lc).
 conservationState(platalea, lc).
-conservationState(pelecanidae, lc)
-conservationState(ardeidae, lc)
-conservationState(ardeidae, nt)
-conservationState(threskiornithdae, lc)
-conservationState(pelecaniformes, lc)
+conservationState(pelecanidae, lc).
+conservationState(ardeidae, lc).
+conservationState(ardeidae, nt).
+conservationState(threskiornithdae, lc).
+conservationState(pelecaniformes, lc).
 
 %commit boosting
