@@ -195,9 +195,9 @@ rangesTo(X,Y):- atom(X) -> rangeOf(X,Y).
 
 
 
-%hasParent2(A,B) :- hasParent(A,B).
-%hasParent2(A,B) :- order(A);genus(A);family(A);compound(A).
-%hasParent2(A,B) :- order(B);family(B);genus(B).
+hasParent2(A,B) :- hasParent(A,B).
+hasParent2(A,B) :- order(A);genus(A);family(A).%;compound(A).
+hasParent2(A,B) :- order(B);family(B);genus(B).
 
 rangeOf(pelecaniformes, canada).
 rangeOf(pelecaniformes, alberta).
