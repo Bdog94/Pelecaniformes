@@ -251,10 +251,10 @@ synonym(A,B)	:-	(hasCommonName(A,B);hasCommonName(B,A);(hasCommonName(X,A),hasCo
 %Case where neither is a common Name
 
 
-isa(A,B) :- \+ var(A), \+ var(B), hasCommonName(C,A), hasCommonName(D,B), isaStrict(C,D).
-isa(A,B) :- \+ var(A), hasCommonName(C,A), isaStrict(C,B).
-isa(A,B) :- \+ var(B), hasCommonName(D,B), isaStrict(A,D).
-isa(A,B) :- isaStrict(A,B).
+isa(A,B) :- \+ var(A), \+ var(B), hasCommonName(C,A), hasCommonName(D,B), \+ species(A),\+ species(B), isaStrict(C,D).
+isa(A,B) :- \+ var(A), hasCommonName(C,A), \+ species(A),\+ species(B), isaStrict(C,B).
+isa(A,B) :- \+ var(B), hasCommonName(D,B), \+ species(A),\+ species(B), isaStrict(A,D).
+isa(A,B) :- \+ species(A), \+ species(B), isaStrict(A,B).
 
 %v1.1
 %isa(A,B) :- isConverted(A, C), isConverted(B,D), isaStrict(C,D).
