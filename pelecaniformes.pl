@@ -87,7 +87,7 @@ hasCommonName(nyctanassa_violacea, yellowCrownedNightHeron).
 hasCommonName(eudocimus_albus, whiteIbis).
 hasCommonName(plegadis_falcinellus, glossyIbis).
 hasCommonName(plegadis_chihi, whiteFacedIbis).
-hasCommonName(platalea_ajaja, roeateSpoonbill).
+hasCommonName(platalea_ajaja, roseateSpoonbill).
 hasCommonName(pelecanus, pelican).
 hasCommonName(botaurus, bittern).
 hasCommonName(ixobrychus, bittern).
@@ -119,7 +119,7 @@ hasCommonName(nyctanassa, violacea, yellowCrownedNightHeron).
 hasCommonName(eudocimus, albus, whiteIbis).
 hasCommonName(plegadis, falcinellus, glossyIbis).
 hasCommonName(plegadis, chihi, whiteFacedIbis).
-hasCommonName(platalea, ajaja, roeateSpoonbill).
+hasCommonName(platalea, ajaja, roseateSpoonbill).
 
 
 % just realized, we dont have to hardcode the rest after this comment
