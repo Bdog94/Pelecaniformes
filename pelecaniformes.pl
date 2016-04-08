@@ -47,7 +47,7 @@ hasParent(ibis, bubulcus).
 hasParent(rufescens, egretta).
 hasParent(tricolor, egretta).
 hasParent(caerulea, egretta).
-hasParent(thulaegretta, egretta).
+hasParent(thula, egretta).
 hasParent(alba, ardea).
 hasParent(herodias, ardea).
 hasParent(exilis, ixobrychus).
@@ -76,7 +76,7 @@ hasCommonName(botaurus_lentiginosus, americanBittern).
 hasCommonName(ixobrychus_exilis, leastBittern).
 hasCommonName(ardea_herodias, greatBlueHeron).
 hasCommonName(ardea_alba, greatEgret).
-hasCommonName(egretta_thulaegretta, snowyEgret).
+hasCommonName(egretta_thula, snowyEgret).
 hasCommonName(egretta_caerulea, littleBlueHeron).
 hasCommonName(egretta_tricolor, tricoloredHeron).
 hasCommonName(egretta_rufescens, reddishEgret).
@@ -108,7 +108,7 @@ hasCommonName(botaurus, lentiginosus, americanBittern).
 hasCommonName(ixobrychus, exilis, leastBittern).
 hasCommonName(ardea, herodias, greatBlueHeron).
 hasCommonName(ardea, alba, greatEgret).
-hasCommonName(egretta, thulaegretta, snowyEgret).
+hasCommonName(egretta, thula, snowyEgret).
 hasCommonName(egretta, caerulea, littleBlueHeron).
 hasCommonName(egretta, tricolor, tricoloredHeron).
 hasCommonName(egretta, rufescens, reddishEgret).
@@ -162,7 +162,7 @@ hasCompoundName(botaurus, lentiginosus, botaurus_lentiginosus).
 hasCompoundName(ixobrychus, exilis, ixobrychus_exilis).
 hasCompoundName(ardea, herodias, ardea_herodias).
 hasCompoundName(ardea, alba, ardea_alba).
-hasCompoundName(egretta, thulaegretta, egretta_thulaegretta).
+hasCompoundName(egretta, thula, egretta_thula).
 hasCompoundName(egretta, caerulea, egretta_caerulea).
 hasCompoundName(egretta, tricolor, egretta_tricolor).
 hasCompoundName(egretta, rufescens, egretta_rufescens).
@@ -285,7 +285,7 @@ habitat(botaurus_lentiginosus, marsh).
 habitat(ixobrychus_exilis, marsh).
 habitat(ardea_herodias, marsh).
 habitat(ardea_alba, marsh).
-habitat(egretta_thulaegretta, marsh).
+habitat(egretta_thula, marsh).
 habitat(egretta_caerulea, marsh).
 habitat(egretta_tricolor, marsh).
 habitat(egretta_rufescens, marsh).
@@ -306,7 +306,7 @@ food(botaurus_lentiginosus, fish).
 food(ixobrychus_exilis, fish).
 food(ardea_herodias, fish).
 food(ardea_alba, fish).
-food(egretta_thulaegretta, fish).
+food(egretta_thula, fish).
 food(egretta_caerulea, fish).
 food(egretta_tricolor, fish).
 food(egretta_rufescens, fish).
@@ -325,7 +325,7 @@ nesting(botaurus_lentiginosus, ground).
 nesting(ixobrychus_exilis, ground).
 nesting(ardea_herodias, tree).
 nesting(ardea_alba, tree).
-nesting(egretta_thulaegretta, tree).
+nesting(egretta_thula, tree).
 nesting(egretta_caerulea, tree).
 nesting(egretta_tricolor, tree).
 nesting(egretta_rufescens, tree).
@@ -344,7 +344,7 @@ behavior(botaurus_lentiginosus, stalking).
 behavior(ixobrychus_exilis, stalking).
 behavior(ardea_herodias, stalking).
 behavior(ardea_alba, stalking).
-behavior(egretta_thulaegretta, stalking).
+behavior(egretta_thula, stalking).
 behavior(egretta_caerulea, stalking).
 behavior(egretta_tricolor, stalking).
 behavior(egretta_rufescens, stalking).
@@ -363,7 +363,7 @@ conservation(botaurus_lentiginosus, lc).
 conservation(ixobrychus_exilis, lc).
 conservation(ardea_herodias, lc).
 conservation(ardea_alba, lc).
-conservation(egretta_thulaegretta, lc).
+conservation(egretta_thula, lc).
 conservation(egretta_caerulea, lc).
 conservation(egretta_tricolor, lc).
 conservation(egretta_rufescens, nt).
