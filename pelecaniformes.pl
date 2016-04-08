@@ -195,9 +195,9 @@ rangesTo(X,Y):- atom(X) -> rangeOf(X,Y).
 
 
 
-%hasParent2(A,B) :- hasParent(A,B).
-%hasParent2(A,B) :- order(A);genus(A);family(A);compound(A).
-%hasParent2(A,B) :- order(B);family(B);genus(B).
+hasParent2(A,B) :- hasParent(A,B).
+hasParent2(A,B) :- order(A);genus(A);family(A).%;compound(A).
+hasParent2(A,B) :- order(B);family(B);genus(B).
 
 rangeOf(pelecaniformes, canada).
 rangeOf(pelecaniformes, alberta).
@@ -306,6 +306,25 @@ habitatOf(eudocimus_albus, marsh).
 habitatOf(plegadis_falcinellus, marsh).
 habitatOf(plegadis_chihi, marsh).
 habitatOf(platalea_ajaja, marsh).
+habitatOf(platalea, marsh).
+habitatOf(plegadis, marsh).
+habitatOf(eudocimus, marsh).
+habitatOf(nyctanassa, marsh).
+habitatOf(nycticorax, marsh).
+habitatOf(bubulcus, marsh).
+habitatOf(butorides, marsh).
+habitatOf(egretta, marsh).
+habitatOf(ardea, marsh).
+habitatOf(ixobrychus, marsh).
+habitatOf(pelecanus, ocean).
+habitatOf(pelecanus, lakePond).
+habitatOf(pelecanidae, ocean).
+habitatOf(pelecanidae, lakePond).
+habitatOf(ardeidae, marsh).
+habitatOf(threskiornithdae, marsh).
+habitatOf(pelecaniformes, ocean).
+habitatOf(pelecaniformes, lakePond).
+habitatOf(pelecaniformes, marsh).
 
 food(X,Y):- var(X) -> hasCompoundName(_,_,X), foodOf(X,Y).
 food(X,Y):- atom(X) -> foodOf(X,Y).
@@ -328,6 +347,25 @@ foodOf(eudocimus_albus, insects).
 foodOf(plegadis_falcinellus, insects).
 foodOf(plegadis_chihi, insects).
 foodOf(platalea_ajaja, fish).
+foodOf(platalea, fish).
+foodOf(plegadis, insects).
+foodOf(eudocimus, insects).
+foodOf(nyctanassa, insects).
+foodOf(nycticorax, fish).
+foodOf(butorides, fish).
+foodOf(bubulcus, insects).
+foodOf(egretta, fish).
+foodOf(ardea, fish).
+foodOf(ixobrychus, fish).
+foodOf(pelecanus, fish).
+foodOf(pelecanidae, fish).
+foodOf(ardeidae, fish).
+foodOf(ardeidae, insects).
+foodOf(threskiornithdae, fish).
+foodOf(threskiornithdae, insects).
+foodOf(pelecaniformes, insects).
+foodOf(pelecaniformes, fish).
+
 
 nesting(X,Y):- var(X) -> hasCompoundName(_,_,X), nestingOf(X,Y).
 nesting(X,Y):- atom(X) -> nestingOf(X,Y).
@@ -350,6 +388,27 @@ nestingOf(eudocimus_albus, tree).
 nestingOf(plegadis_falcinellus, ground).
 nestingOf(plegadis_chihi, ground).
 nestingOf(platalea_ajaja, tree).
+nestingOf(pelecanus, ground).
+nestingOf(pelecanus, tree).
+nestingOf(botaurus, ground).
+nestingOf(ixobrychus, ground).
+nestingOf(ardea, tree).
+nestingOf(egretta, tree).
+nestingOf(bubulcus, tree).
+nestingOf(butorides, tree).
+nestingOf(nycticorax, tree).
+nestingOf(nyctanassa, tree).
+nestingOf(eudocimus, tree).
+nestingOf(plegadis, ground).
+nestingOf(platalea, tree).
+nestingOf(pelecanidae, ground).
+nestingOf(pelecanidae, tree).
+nestingOf(ardeidae, ground).
+nestingOf(ardeidae, tree).
+nestingOf(threskiornithdae, tree).
+nestingOf(threskiornithdae, ground).
+nestingOf(pelecaniformes, ground).
+nestingOf(pelecaniformes, tree).
 
 behavior(X,Y):- var(X) -> hasCompoundName(_,_,X), behaviorOf(X,Y).
 behavior(X,Y):- atom(X) -> behaviorOf(X,Y).
@@ -372,6 +431,29 @@ behaviorOf(eudocimus_albus, probing).
 behaviorOf(plegadis_falcinellus, probing).
 behaviorOf(plegadis_chihi, probing).
 behaviorOf(platalea_ajaja, probing).
+behaviorOf(pelecanus, surfaceDive).
+behaviorOf(pelecanus, aerialDive).
+behaviorOf(pelecanidae, surfaceDive).
+behaviorOf(ardeidae, stalking).
+behaviorOf(ardeidae, groundForager).
+behaviorOf(botaurus, stalking).
+behaviorOf(ixobrychus stalking).
+behaviorOf(ardea, stalking).
+behaviorOf(egretta, stalking).
+behaviorOf(bubulcus, groundForager).
+behaviorOf(butorides, stalking).
+behaviorOf(nycticorax, stalking).
+behaviorOf(nyctanassa, stalking).
+behaviorOf(threskiornithdae, probing).
+behaviorOf(eudocimus, probing).
+behaviorOf(plegadis, probing).
+behaviorOf(platalea, probing).
+behaviorOf(pelecaniformes, surfaceDive).
+behaviorOf(pelecaniformes, aerialDive).
+behaviorOf(pelecaniformes, probing).
+behaviorOf(pelecaniformes, stalking).
+behaviorOf(pelecaniformes, groundForager).
+
 
 conservation(X,Y):- var(X) -> hasCompoundName(_,_,X), conservationState(X,Y).
 conservation(X,Y):- atom(X) -> conservationState(X,Y).
@@ -394,6 +476,23 @@ conservationState(eudocimus_albus, lc).
 conservationState(plegadis_falcinellus, lc).
 conservationState(plegadis_chihi, lc).
 conservationState(platalea_ajaja, lc).
-
+conservationState(pelecanus, lc).
+conservationState(botaurus, lc).
+conservationState(ixobrychus, lc).
+conservationState(ardea, lc).
+conservationState(egretta, lc).
+conservationState(egretta, nt).
+conservationState(bubulcus, lc).
+conservationState(butorides, lc).
+conservationState(nycticorax, lc).
+conservationState(nyctanassa, lc).
+conservationState(eudocimus, lc).
+conservationState(plegadis, lc).
+conservationState(platalea, lc).
+conservationState(pelecanidae, lc)
+conservationState(ardeidae, lc)
+conservationState(ardeidae, nt)
+conservationState(threskiornithdae, lc)
+conservationState(pelecaniformes, lc)
 
 %commit boosting
