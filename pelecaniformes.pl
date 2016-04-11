@@ -529,5 +529,6 @@ conservationState(ardeidae, lc).
 conservationState(ardeidae, nt).
 conservationState(threskiornithdae, lc).
 conservationState(pelecaniformes, lc).
+conservationState(pelecaniformes, nt).
 
 %commit boosting
