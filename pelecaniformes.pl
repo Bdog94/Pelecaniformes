@@ -179,10 +179,10 @@ hasCompoundName(platalea, ajaja, platalea_ajaja).
 %isaStrict(A, B) :- hasCompoundName(_, X, A), isaStrict(X,B).
 %isaStirct(A, B) :- hasCompoundName(_, Y, B), isaStrict(A,Y).
 
-isaStrict(A, B) :- convertToSpeciesName(A,X), convertToSpeciesName(B,Y), \+ species(A), \+species(B),  isaStrictActual(X,Y).
-isaStrict(A, B) :- convertToSpeciesName(A,X), isaStrictActual(X,B), \+ species(A).
-isaStrict(A, B) :- convertToSpeciesName(B,Y), isaStrictActual(A,Y), \+ species(B).
-isaStrict(A, B) :- isaStrictActual(A,B), \+ species(A), \+species(B).
+isaStrict(A, B) :- convertToSpeciesName(A,X), convertToSpeciesName(B,Y), (\+ species(A); genus(A)), (\+species(B); genus(B)),  isaStrictActual(X,Y).
+isaStrict(A, B) :- convertToSpeciesName(A,X), isaStrictActual(X,B), (\+ species(A); genus(A)).
+isaStrict(A, B) :- convertToSpeciesName(B,Y), isaStrictActual(A,Y), (\+ species(B); genus(B)).
+isaStrict(A, B) :- isaStrictActual(A,B), (\+ species(A); genus(A)), (\+species(B); genus(B)).
 
 isaStrictActual(A, B) :- A == B,( (species(A), species(B)); (genus(A), genus(B)); (family(A), family(B)); (order(A), order(B))).
 isaStrictActual(A, B) :- hasParent(A, C), hasParent(C, D), hasParent(D, B).
