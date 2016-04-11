@@ -298,10 +298,11 @@ synonym(A,B)	:-	(hasCommonName(A,B);hasCommonName(B,A);(hasCommonName(X,A),hasCo
 %Case where one is a common Name
 %Case where neither is a common Name
 
-
 isa(A,B) :- \+ var(A), hasCommonName(C,A), \+ var(B),hasCommonName(D,B), isaStrict(C,D).
 isa(A,B) :- \+ var(A), hasCommonName(C,A), isNonCommonName(B), isaStrict(C,B).
 isa(A,B) :- \+ var(B), hasCommonName(D,B), isNonCommonName(A), isaStrict(A,D).
+isa(A,B) :- isNonCommonName(A), B=A.
+isa(A,B) :- isNonCommonName(B), A=B.
 isa(A,B) :- isConverted(A,X), isConverted(B,Y), isaStrict(X,Y).
 isa(A,B) :- isConverted(A,X), isaStrict(X,B).
 isa(A,B) :- isConverted(B,Y), isaStrict(A,Y).
