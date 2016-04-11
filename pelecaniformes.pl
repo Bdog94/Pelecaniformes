@@ -303,8 +303,8 @@ synonym(A,B)	:-	(hasCommonName(A,B);hasCommonName(B,A);(hasCommonName(X,A),hasCo
 
 
 isa(A,B) :- \+ var(A), hasCommonName(C,A), \+ var(B),hasCommonName(D,B), isaStrict(C,D).
-isa(A,B) :- \+ var(A), hasCommonName(C,A), isaStrict(C,B).
-isa(A,B) :- \+ var(B), hasCommonName(D,B), isaStrict(A,D).
+isa(A,B) :- \+ var(A), hasCommonName(C,A), isNonCommonName(B), isaStrict(C,B).
+isa(A,B) :- \+ var(B), hasCommonName(D,B), isNonCommonName(A), isaStrict(A,D).
 isa(A,B) :- isConverted(A,X), isConverted(B,Y), isaStrict(X,Y).
 isa(A,B) :- isConverted(A,X), isaStrict(X,B).
 isa(A,B) :- isConverted(B,Y), isaStrict(A,Y).
@@ -327,6 +327,11 @@ isa(A,B) :- isaStrict(A,B).
 
 
 isConverted(A,B) :- hasCompoundName(_, B ,A).
+
+isNonCommonName(A) :- hasCompoundName(_, _, A).
+isNonCommonName(A) :- order(A).
+isNonCommonName(A) :- family(A).
+isNonCommonName(A) :- genus(A).
 
 
 
