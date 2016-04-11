@@ -87,7 +87,7 @@ hasCommonName(nyctanassa_violacea, yellowCrownedNightHeron).
 hasCommonName(eudocimus_albus, whiteIbis).
 hasCommonName(plegadis_falcinellus, glossyIbis).
 hasCommonName(plegadis_chihi, whiteFacedIbis).
-hasCommonName(platalea_ajaja, roeateSpoonbill).
+hasCommonName(platalea_ajaja, roseateSpoonbill).
 hasCommonName(pelecanus, pelican).
 hasCommonName(botaurus, bittern).
 hasCommonName(ixobrychus, bittern).
@@ -119,7 +119,7 @@ hasCommonName(nyctanassa, violacea, yellowCrownedNightHeron).
 hasCommonName(eudocimus, albus, whiteIbis).
 hasCommonName(plegadis, falcinellus, glossyIbis).
 hasCommonName(plegadis, chihi, whiteFacedIbis).
-hasCommonName(platalea, ajaja, roeateSpoonbill).
+hasCommonName(platalea, ajaja, roseateSpoonbill).
 
 
 % just realized, we dont have to hardcode the rest after this comment
@@ -184,14 +184,20 @@ isaStrict(A, B) :- convertToSpeciesName(A,X), isaStrictActual(X,B), \+ species(A
 isaStrict(A, B) :- convertToSpeciesName(B,Y), isaStrictActual(A,Y), \+ species(B).
 isaStrict(A, B) :- isaStrictActual(A,B), \+ species(A), \+species(B).
 
-isaStrictActual(A, B) :- A == B.
+isaStrictActual(A, B) :- A == B,( (species(A), species(B)); (genus(A), genus(B)); (family(A), family(B)); (order(A), order(B))).
 isaStrictActual(A, B) :- hasParent(A, C), hasParent(C, D), hasParent(D, B).
 isaStrictActual(A, B) :- hasParent(A, C), hasParent(C, B).
 isaStrictActual(A, B) :- hasParent(A,B).
 
-convertToSpeciesName(A,B) :- hasCompoundName(_ , B, A).
+convertToSpeciesName(A,B) :- hasCompoundName( _, B, A).
 rangesTo(X,Y):- var(X) -> hasCompoundName(_,_,X), rangeOf(X,Y).
 rangesTo(X,Y):- atom(X) -> rangeOf(X,Y).
+
+
+
+hasParent2(A,B) :- hasParent(A,B).
+hasParent2(A,B) :- order(A);genus(A);family(A).%;compound(A).
+hasParent2(A,B) :- order(B);family(B);genus(B).
 
 rangeOf(pelecaniformes, canada).
 rangeOf(pelecaniformes, alberta).
@@ -251,9 +257,12 @@ synonym(A,B)	:-	(hasCommonName(A,B);hasCommonName(B,A);(hasCommonName(X,A),hasCo
 %Case where neither is a common Name
 
 
-isa(A,B) :- \+ var(A), \+ var(B), hasCommonName(C,A), hasCommonName(D,B), isaStrict(C,D).
+isa(A,B) :- \+ var(A), hasCommonName(C,A), \+ var(B),hasCommonName(D,B), isaStrict(C,D).
 isa(A,B) :- \+ var(A), hasCommonName(C,A), isaStrict(C,B).
 isa(A,B) :- \+ var(B), hasCommonName(D,B), isaStrict(A,D).
+isa(A,B) :- isConverted(A,X), isConverted(B,Y), isaStrict(X,Y).
+isa(A,B) :- isConverted(A,X), isaStrict(X,B).
+isa(A,B) :- isConverted(B,Y), isaStrict(A,Y).
 isa(A,B) :- isaStrict(A,B).
 
 %v1.1
@@ -272,9 +281,10 @@ isa(A,B) :- isaStrict(A,B).
 %isa(A,B) :- hasSciName(A,E), isaStrict(E,B), E\==B.
 
 
-isConverted(A,B) :- hasCompoundName(_, B,A), \+species(A).
+isConverted(A,B) :- hasCompoundName(_, B ,A).
 
-%variable(X). true if X is a variable and fails if x is constant\not variable
+
+
 
 isaNonSpeciesName(X,Y) :- hasCommonName(A, X), hasCommonName(B,Y), isaStrict(X is A,Y is B).
 isaNonSpeciesName(X,Y) :- hasCommonName(A_1, _, X), hasCommonName(B_2, _, Y), isaStrict( X is A_1, Y is B_2).
@@ -310,102 +320,214 @@ rangeOf(butorides_virescens, canada).
 rangeOf(nycticorax_nycticorax, canada).
 rangeOf(nycticorax_nycticorax, alberta).
 %/////////////////////////////
-habitat(pelecanus_erythrorhynchos, lakePond).
-habitat(pelecanus_occidentalis, ocean).
-habitat(botaurus_lentiginosus, marsh).
-habitat(ixobrychus_exilis, marsh).
-habitat(ardea_herodias, marsh).
-habitat(ardea_alba, marsh).
-habitat(egretta_thula, marsh).
-habitat(egretta_caerulea, marsh).
-habitat(egretta_tricolor, marsh).
-habitat(egretta_rufescens, marsh).
-habitat(bubulcus_ibis, marsh).
-habitat(butorides_virescens, marsh).
-habitat(nycticorax_nycticorax, marsh).
-habitat(nyctanassa_violacea, marsh).
-habitat(eudocimus_albus, marsh).
-habitat(plegadis_falcinellus, marsh).
-habitat(plegadis_chihi, marsh).
-habitat(platalea_ajaja, marsh).
+habitat(X,Y):- var(X) -> hasCompoundName(_,_,X), habitatOf(X,Y).
+habitat(X,Y):- atom(X) -> habitatOf(X,Y).
+
+habitatOf(pelecanus_erythrorhynchos, lakePond).
+habitatOf(pelecanus_occidentalis, ocean).
+habitatOf(botaurus_lentiginosus, marsh).
+habitatOf(ixobrychus_exilis, marsh).
+habitatOf(ardea_herodias, marsh).
+habitatOf(ardea_alba, marsh).
+habitatOf(egretta_thula, marsh).
+habitatOf(egretta_caerulea, marsh).
+habitatOf(egretta_tricolor, marsh).
+habitatOf(egretta_rufescens, marsh).
+habitatOf(bubulcus_ibis, marsh).
+habitatOf(butorides_virescens, marsh).
+habitatOf(nycticorax_nycticorax, marsh).
+habitatOf(nyctanassa_violacea, marsh).
+habitatOf(eudocimus_albus, marsh).
+habitatOf(plegadis_falcinellus, marsh).
+habitatOf(plegadis_chihi, marsh).
+habitatOf(platalea_ajaja, marsh).
+habitatOf(platalea, marsh).
+habitatOf(plegadis, marsh).
+habitatOf(eudocimus, marsh).
+habitatOf(nyctanassa, marsh).
+habitatOf(nycticorax, marsh).
+habitatOf(bubulcus, marsh).
+habitatOf(butorides, marsh).
+habitatOf(egretta, marsh).
+habitatOf(ardea, marsh).
+habitatOf(ixobrychus, marsh).
+habitatOf(pelecanus, ocean).
+habitatOf(pelecanus, lakePond).
+habitatOf(pelecanidae, ocean).
+habitatOf(pelecanidae, lakePond).
+habitatOf(ardeidae, marsh).
+habitatOf(threskiornithdae, marsh).
+habitatOf(pelecaniformes, ocean).
+habitatOf(pelecaniformes, lakePond).
+habitatOf(pelecaniformes, marsh).
+
+food(X,Y):- var(X) -> hasCompoundName(_,_,X), foodOf(X,Y).
+food(X,Y):- atom(X) -> foodOf(X,Y).
+
+foodOf(pelecanus_erythrorhynchos, fish).
+foodOf(pelecanus_occidentalis, fish).
+foodOf(botaurus_lentiginosus, fish).
+foodOf(ixobrychus_exilis, fish).
+foodOf(ardea_herodias, fish).
+foodOf(ardea_alba, fish).
+foodOf(egretta_thula, fish).
+foodOf(egretta_caerulea, fish).
+foodOf(egretta_tricolor, fish).
+foodOf(egretta_rufescens, fish).
+foodOf(bubulcus_ibis, insects).
+foodOf(butorides_virescens, fish).
+foodOf(nycticorax_nycticorax, fish).
+foodOf(nyctanassa_violacea, insects).
+foodOf(eudocimus_albus, insects).
+foodOf(plegadis_falcinellus, insects).
+foodOf(plegadis_chihi, insects).
+foodOf(platalea_ajaja, fish).
+foodOf(platalea, fish).
+foodOf(plegadis, insects).
+foodOf(eudocimus, insects).
+foodOf(nyctanassa, insects).
+foodOf(nycticorax, fish).
+foodOf(butorides, fish).
+foodOf(bubulcus, insects).
+foodOf(egretta, fish).
+foodOf(ardea, fish).
+foodOf(ixobrychus, fish).
+foodOf(pelecanus, fish).
+foodOf(pelecanidae, fish).
+foodOf(ardeidae, fish).
+foodOf(ardeidae, insects).
+foodOf(threskiornithdae, fish).
+foodOf(threskiornithdae, insects).
+foodOf(pelecaniformes, insects).
+foodOf(pelecaniformes, fish).
 
 
+nesting(X,Y):- var(X) -> hasCompoundName(_,_,X), nestingOf(X,Y).
+nesting(X,Y):- atom(X) -> nestingOf(X,Y).
 
-food(pelecanus_erythrorhynchos, fish).
-food(pelecanus_occidentalis, fish).
-food(botaurus_lentiginosus, fish).
-food(ixobrychus_exilis, fish).
-food(ardea_herodias, fish).
-food(ardea_alba, fish).
-food(egretta_thula, fish).
-food(egretta_caerulea, fish).
-food(egretta_tricolor, fish).
-food(egretta_rufescens, fish).
-food(bubulcus_ibis, insects).
-food(butorides_virescens, fish).
-food(nycticorax_nycticorax, fish).
-food(nyctanassa_violacea, insects).
-food(eudocimus_albus, insects).
-food(plegadis_falcinellus, insects).
-food(plegadis_chihi, insects).
-food(platalea_ajaja, fish).
+nestingOf(pelecanus_erythrorhynchos, ground).
+nestingOf(pelecanus_occidentalis, tree).
+nestingOf(botaurus_lentiginosus, ground).
+nestingOf(ixobrychus_exilis, ground).
+nestingOf(ardea_herodias, tree).
+nestingOf(ardea_alba, tree).
+nestingOf(egretta_thula, tree).
+nestingOf(egretta_caerulea, tree).
+nestingOf(egretta_tricolor, tree).
+nestingOf(egretta_rufescens, tree).
+nestingOf(bubulcus_ibis, tree).
+nestingOf(butorides_virescens, tree).
+nestingOf(nycticorax_nycticorax, tree).
+nestingOf(nyctanassa_violacea, tree).
+nestingOf(eudocimus_albus, tree).
+nestingOf(plegadis_falcinellus, ground).
+nestingOf(plegadis_chihi, ground).
+nestingOf(platalea_ajaja, tree).
+nestingOf(pelecanus, ground).
+nestingOf(pelecanus, tree).
+nestingOf(botaurus, ground).
+nestingOf(ixobrychus, ground).
+nestingOf(ardea, tree).
+nestingOf(egretta, tree).
+nestingOf(bubulcus, tree).
+nestingOf(butorides, tree).
+nestingOf(nycticorax, tree).
+nestingOf(nyctanassa, tree).
+nestingOf(eudocimus, tree).
+nestingOf(plegadis, ground).
+nestingOf(platalea, tree).
+nestingOf(pelecanidae, ground).
+nestingOf(pelecanidae, tree).
+nestingOf(ardeidae, ground).
+nestingOf(ardeidae, tree).
+nestingOf(threskiornithdae, tree).
+nestingOf(threskiornithdae, ground).
+nestingOf(pelecaniformes, ground).
+nestingOf(pelecaniformes, tree).
 
-nesting(pelecanus_erythrorhynchos, ground).
-nesting(pelecanus_occidentalis, tree).
-nesting(botaurus_lentiginosus, ground).
-nesting(ixobrychus_exilis, ground).
-nesting(ardea_herodias, tree).
-nesting(ardea_alba, tree).
-nesting(egretta_thula, tree).
-nesting(egretta_caerulea, tree).
-nesting(egretta_tricolor, tree).
-nesting(egretta_rufescens, tree).
-nesting(bubulcus_ibis, tree).
-nesting(butorides_virescens, tree).
-nesting(nycticorax_nycticorax, tree).
-nesting(nyctanassa_violacea, tree).
-nesting(eudocimus_albus, tree).
-nesting(plegadis_falcinellus, ground).
-nesting(plegadis_chihi, ground).
-nesting(platalea_ajaja, tree).
+behavior(X,Y):- var(X) -> hasCompoundName(_,_,X), behaviorOf(X,Y).
+behavior(X,Y):- atom(X) -> behaviorOf(X,Y).
 
-behavior(pelecanus_erythrorhynchos, surfaceDive).
-behavior(pelecanus_occidentalis, aerialDive).
-behavior(botaurus_lentiginosus, stalking).
-behavior(ixobrychus_exilis, stalking).
-behavior(ardea_herodias, stalking).
-behavior(ardea_alba, stalking).
-behavior(egretta_thula, stalking).
-behavior(egretta_caerulea, stalking).
-behavior(egretta_tricolor, stalking).
-behavior(egretta_rufescens, stalking).
-behavior(bubulcus_ibis, groundForager).
-behavior(butorides_virescens, stalking).
-behavior(nycticorax_nycticorax, stalking).
-behavior(nyctanassa_violacea, stalking).
-behavior(eudocimus_albus, probing).
-behavior(plegadis_falcinellus, probing).
-behavior(plegadis_chihi, probing).
-behavior(platalea_ajaja, probing).
+behaviorOf(pelecanus_erythrorhynchos, surfaceDive).
+behaviorOf(pelecanus_occidentalis, aerialDive).
+behaviorOf(botaurus_lentiginosus, stalking).
+behaviorOf(ixobrychus_exilis, stalking).
+behaviorOf(ardea_herodias, stalking).
+behaviorOf(ardea_alba, stalking).
+behaviorOf(egretta_thula, stalking).
+behaviorOf(egretta_caerulea, stalking).
+behaviorOf(egretta_tricolor, stalking).
+behaviorOf(egretta_rufescens, stalking).
+behaviorOf(bubulcus_ibis, groundForager).
+behaviorOf(butorides_virescens, stalking).
+behaviorOf(nycticorax_nycticorax, stalking).
+behaviorOf(nyctanassa_violacea, stalking).
+behaviorOf(eudocimus_albus, probing).
+behaviorOf(plegadis_falcinellus, probing).
+behaviorOf(plegadis_chihi, probing).
+behaviorOf(platalea_ajaja, probing).
+behaviorOf(pelecanus, surfaceDive).
+behaviorOf(pelecanus, aerialDive).
+behaviorOf(pelecanidae, surfaceDive).
+behaviorOf(ardeidae, stalking).
+behaviorOf(ardeidae, groundForager).
+behaviorOf(botaurus, stalking).
+behaviorOf(ixobrychus, stalking).
+behaviorOf(ardea, stalking).
+behaviorOf(egretta, stalking).
+behaviorOf(bubulcus, groundForager).
+behaviorOf(butorides, stalking).
+behaviorOf(nycticorax, stalking).
+behaviorOf(nyctanassa, stalking).
+behaviorOf(threskiornithdae, probing).
+behaviorOf(eudocimus, probing).
+behaviorOf(plegadis, probing).
+behaviorOf(platalea, probing).
+behaviorOf(pelecaniformes, surfaceDive).
+behaviorOf(pelecaniformes, aerialDive).
+behaviorOf(pelecaniformes, probing).
+behaviorOf(pelecaniformes, stalking).
+behaviorOf(pelecaniformes, groundForager).
 
-conservation(pelecanus_erythrorhynchos, lc).
-conservation(pelecanus_occidentalis, lc).
-conservation(botaurus_lentiginosus, lc).
-conservation(ixobrychus_exilis, lc).
-conservation(ardea_herodias, lc).
-conservation(ardea_alba, lc).
-conservation(egretta_thula, lc).
-conservation(egretta_caerulea, lc).
-conservation(egretta_tricolor, lc).
-conservation(egretta_rufescens, nt).
-conservation(bubulcus_ibis, lc).
-conservation(butorides_virescens, lc).
-conservation(nycticorax_nycticorax, lc).
-conservation(nyctanassa_violacea, lc).
-conservation(eudocimus_albus, lc).
-conservation(plegadis_falcinellus, lc).
-conservation(plegadis_chihi, lc).
-conservation(platalea_ajaja, lc).
 
+conservation(X,Y):- var(X) -> hasCompoundName(_,_,X), conservationState(X,Y).
+conservation(X,Y):- atom(X) -> conservationState(X,Y).
+
+conservationState(pelecanus_erythrorhynchos, lc).
+conservationState(pelecanus_occidentalis, lc).
+conservationState(botaurus_lentiginosus, lc).
+conservationState(ixobrychus_exilis, lc).
+conservationState(ardea_herodias, lc).
+conservationState(ardea_alba, lc).
+conservationState(egretta_thula, lc).
+conservationState(egretta_caerulea, lc).
+conservationState(egretta_tricolor, lc).
+conservationState(egretta_rufescens, nt).
+conservationState(bubulcus_ibis, lc).
+conservationState(butorides_virescens, lc).
+conservationState(nycticorax_nycticorax, lc).
+conservationState(nyctanassa_violacea, lc).
+conservationState(eudocimus_albus, lc).
+conservationState(plegadis_falcinellus, lc).
+conservationState(plegadis_chihi, lc).
+conservationState(platalea_ajaja, lc).
+conservationState(pelecanus, lc).
+conservationState(botaurus, lc).
+conservationState(ixobrychus, lc).
+conservationState(ardea, lc).
+conservationState(egretta, lc).
+conservationState(egretta, nt).
+conservationState(bubulcus, lc).
+conservationState(butorides, lc).
+conservationState(nycticorax, lc).
+conservationState(nyctanassa, lc).
+conservationState(eudocimus, lc).
+conservationState(plegadis, lc).
+conservationState(platalea, lc).
+conservationState(pelecanidae, lc).
+conservationState(ardeidae, lc).
+conservationState(ardeidae, nt).
+conservationState(threskiornithdae, lc).
+conservationState(pelecaniformes, lc).
 
 %commit boosting
