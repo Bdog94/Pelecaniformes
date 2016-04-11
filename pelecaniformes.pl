@@ -195,9 +195,54 @@ rangesTo(X,Y):- atom(X) -> rangeOf(X,Y).
 
 
 
-hasParent2(A,B) :- hasParent(A,B).
-hasParent2(A,B) :- order(A);genus(A);family(A).%;compound(A).
-hasParent2(A,B) :- order(B);family(B);genus(B).
+
+% rawName is a helper function that will provide the raw name from the compound name of a species.   
+rawName(pelecanus_erythrorhynchos,erythrorhynchos). 
+rawName(pelecanus_occidentalis,occidentalis). 
+rawName(botaurus_lentiginosus,lentiginosus). 
+rawName(ixobrychus_exilis,exilis). 
+rawName(ardea_herodias,herodias). 
+rawName(ardea_alba,alba). 
+rawName(egretta_thula,thula). 
+rawName(egretta_caerulea,caerulea). 
+rawName(egretta_tricolor,tricolor). 
+rawName(egretta_rufescens,rufescens). 
+rawName(bubulcus_ibis,ibis). 
+rawName(butorides_virescens,virescens). 
+rawName(nycticorax_nycticorax,nycticorax). 
+rawName(nyctanassa_violacea,violacea). 
+rawName(eudocimus_albus,albus). 
+rawName(plegadis_falcinellus,falcinellus). 
+rawName(plegadis_chihi,chihi). 
+rawName(platalea_ajaja,ajaja). 
+
+% speciesFull name is a helper function that will provide the order, family, genus, species and common name of the pelican species.  
+speciesFullName(pelecaniformes,pelecanidae,pelecanus,pelecanus_erythrorhynchos,americanWhitePelican). 
+speciesFullName(pelecaniformes,pelecanidae,pelecanus,pelecanus_occidentalis,brownPelican). 
+speciesFullName(pelecaniformes,ardeidae,botaurus,botaurus_lentiginosus,americanBittern). 
+speciesFullName(pelecaniformes,ardeidae,ixobrychus,ixobrychus_exilis,leastBittern). 
+speciesFullName(pelecaniformes,ardeidae,ardea,ardea_herodias,greatBlueHeron). 
+speciesFullName(pelecaniformes,ardeidae,ardea,ardea_alba,greatEgret). 
+speciesFullName(pelecaniformes,ardeidae,egretta,egretta_thula,snowyEgret). 
+speciesFullName(pelecaniformes,ardeidae,egretta,egretta_caerulea,littleBlueHeron). 
+speciesFullName(pelecaniformes,ardeidae,egretta,egretta_tricolor,tricoloredHeron). 
+speciesFullName(pelecaniformes,ardeidae,egretta,egretta_rufescens,reddishEgret). 
+speciesFullName(pelecaniformes,ardeidae,bubulcus,bubulcus_ibis,cattleEgret). 
+speciesFullName(pelecaniformes,ardeidae,butorides,butorides_virescens,greenHeron). 
+speciesFullName(pelecaniformes,ardeidae,nycticorax,nycticorax_nycticorax,blackCrownedNightHeron). 
+speciesFullName(pelecaniformes,ardeidae,nyctanassa,nyctanassa_violacea,yellowCrownedNightHeron). 
+speciesFullName(pelecaniformes,threskiornithdae,eudocimus,eudocimus_albus,whiteIbis). 
+speciesFullName(pelecaniformes,threskiornithdae,plegadis,plegadis_falcinellus,glossyIbis). 
+speciesFullName(pelecaniformes,threskiornithdae,plegadis,plegadis_chihi,whiteFacedIbis). 
+speciesFullName(pelecaniformes,threskiornithdae,platalea,platalea_ajaja,roseateSpoonbill). 
+
+
+
+% hasParent2(A,B) returns true if A in compound name form has Parent B.  
+hasParent2(A,B) :- rawName(A,_), speciesFullName(_,_,B,A,_). 
+hasParent2(A,B) :- genus(A), speciesFullName(_,B,A,_,_). 
+hasParent2(A,B) :- family(A), speciesFullName(B,A,_,_,_). 
+
 
 rangeOf(pelecaniformes, canada).
 rangeOf(pelecaniformes, alberta).
