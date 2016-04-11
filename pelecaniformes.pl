@@ -241,6 +241,8 @@ hasParent2(A,B) :- giveRaw(A,_), provideFull(_,_,B,A,_).
 hasParent2(A,B) :- family(A), provideFull(B,A,_,_,_). 
 hasParent2(A,B) :- genus(A), provideFull(_,B,A,_,_). 
 
+
+
 rangesTo(X,Y):- var(X) -> hasCompoundName(_,_,X), rangeOf(X,Y).
 rangesTo(X,Y):- atom(X) -> rangeOf(X,Y).
 
@@ -339,7 +341,8 @@ isNonCommonName(A) :- genus(A).
 isaNonSpeciesName(X,Y) :- hasCommonName(A, X), hasCommonName(B,Y), isaStrict(X is A,Y is B).
 isaNonSpeciesName(X,Y) :- hasCommonName(A_1, _, X), hasCommonName(B_2, _, Y), isaStrict( X is A_1, Y is B_2).
 
-%/////////////////////////////
+
+%//////////////////////////////////////////////////////////////////////////////////////////
 habitat(X,Y):- var(X) -> hasCompoundName(_,_,X), habitatOf(X,Y).
 habitat(X,Y):- atom(X) -> habitatOf(X,Y).
 
@@ -380,7 +383,9 @@ habitatOf(threskiornithdae, marsh).
 habitatOf(pelecaniformes, ocean).
 habitatOf(pelecaniformes, lakePond).
 habitatOf(pelecaniformes, marsh).
+%//////////////////////////////////////////////////////////////////////////////////////////
 
+%//////////////////////////////////////////////////////////////////////////////////////////
 food(X,Y):- var(X) -> hasCompoundName(_,_,X), foodOf(X,Y).
 food(X,Y):- atom(X) -> foodOf(X,Y).
 
@@ -420,8 +425,9 @@ foodOf(threskiornithdae, fish).
 foodOf(threskiornithdae, insects).
 foodOf(pelecaniformes, insects).
 foodOf(pelecaniformes, fish).
+%//////////////////////////////////////////////////////////////////////////////////////////
 
-
+%//////////////////////////////////////////////////////////////////////////////////////////
 nesting(X,Y):- var(X) -> hasCompoundName(_,_,X), nestingOf(X,Y).
 nesting(X,Y):- atom(X) -> nestingOf(X,Y).
 
@@ -464,10 +470,14 @@ nestingOf(threskiornithdae, tree).
 nestingOf(threskiornithdae, ground).
 nestingOf(pelecaniformes, ground).
 nestingOf(pelecaniformes, tree).
+%//////////////////////////////////////////////////////////////////////////////////////////
 
+%//////////////////////////////////////////////////////////////////////////////////////////
+%behavior is a predicate that will provide us with the behavior of a compound species name, genus, family, or order but not a raw name.
 behavior(X,Y):- var(X) -> hasCompoundName(_,_,X), behaviorOf(X,Y).
 behavior(X,Y):- atom(X) -> behaviorOf(X,Y).
 
+%this is where we store the behaviors of different pelicans, we use this in our behavior predicate.
 behaviorOf(pelecanus_erythrorhynchos, surfaceDive).
 behaviorOf(pelecanus_occidentalis, aerialDive).
 behaviorOf(botaurus_lentiginosus, stalking).
@@ -508,47 +518,50 @@ behaviorOf(pelecaniformes, aerialDive).
 behaviorOf(pelecaniformes, probing).
 behaviorOf(pelecaniformes, stalking).
 behaviorOf(pelecaniformes, groundForager).
+%//////////////////////////////////////////////////////////////////////////////////////////
+
+%//////////////////////////////////////////////////////////////////////////////////////////
+%conservation is a predicate that will provide us with the conservation status of a compound species name, genus, family, or order, but not a raw name
+conservation(X,Y):- var(X) -> hasCompoundName(_,_,X), conservationStatus(X,Y).
+conservation(X,Y):- atom(X) -> conservationStatus(X,Y).
 
 
-conservation(X,Y):- var(X) -> hasCompoundName(_,_,X), conservationState(X,Y).
-conservation(X,Y):- atom(X) -> conservationState(X,Y).
-
-conservationState(pelecanus_erythrorhynchos, lc).
-conservationState(pelecanus_occidentalis, lc).
-conservationState(botaurus_lentiginosus, lc).
-conservationState(ixobrychus_exilis, lc).
-conservationState(ardea_herodias, lc).
-conservationState(ardea_alba, lc).
-conservationState(egretta_thula, lc).
-conservationState(egretta_caerulea, lc).
-conservationState(egretta_tricolor, lc).
-conservationState(egretta_rufescens, nt).
-conservationState(bubulcus_ibis, lc).
-conservationState(butorides_virescens, lc).
-conservationState(nycticorax_nycticorax, lc).
-conservationState(nyctanassa_violacea, lc).
-conservationState(eudocimus_albus, lc).
-conservationState(plegadis_falcinellus, lc).
-conservationState(plegadis_chihi, lc).
-conservationState(platalea_ajaja, lc).
-conservationState(pelecanus, lc).
-conservationState(botaurus, lc).
-conservationState(ixobrychus, lc).
-conservationState(ardea, lc).
-conservationState(egretta, lc).
-conservationState(egretta, nt).
-conservationState(bubulcus, lc).
-conservationState(butorides, lc).
-conservationState(nycticorax, lc).
-conservationState(nyctanassa, lc).
-conservationState(eudocimus, lc).
-conservationState(plegadis, lc).
-conservationState(platalea, lc).
-conservationState(pelecanidae, lc).
-conservationState(ardeidae, lc).
-conservationState(ardeidae, nt).
-conservationState(threskiornithdae, lc).
-conservationState(pelecaniformes, lc).
-conservationState(pelecaniformes, nt).
-
-%commit boosting
+%conservationStatus is where we store the conservation statuses of different pelicans, we use this in our conservation 
+conservationStatus(pelecanus_erythrorhynchos, lc).
+conservationStatus(pelecanus_occidentalis, lc).
+conservationStatus(botaurus_lentiginosus, lc).
+conservationStatus(ixobrychus_exilis, lc).
+conservationStatus(ardea_herodias, lc).
+conservationStatus(ardea_alba, lc).
+conservationStatus(egretta_thula, lc).
+conservationStatus(egretta_caerulea, lc).
+conservationStatus(egretta_tricolor, lc).
+conservationStatus(egretta_rufescens, nt).
+conservationStatus(bubulcus_ibis, lc).
+conservationStatus(butorides_virescens, lc).
+conservationStatus(nycticorax_nycticorax, lc).
+conservationStatus(nyctanassa_violacea, lc).
+conservationStatus(eudocimus_albus, lc).
+conservationStatus(plegadis_falcinellus, lc).
+conservationStatus(plegadis_chihi, lc).
+conservationStatus(platalea_ajaja, lc).
+conservationStatus(pelecanus, lc).
+conservationStatus(botaurus, lc).
+conservationStatus(ixobrychus, lc).
+conservationStatus(ardea, lc).
+conservationStatus(egretta, lc).
+conservationStatus(egretta, nt).
+conservationStatus(bubulcus, lc).
+conservationStatus(butorides, lc).
+conservationStatus(nycticorax, lc).
+conservationStatus(nyctanassa, lc).
+conservationStatus(eudocimus, lc).
+conservationStatus(plegadis, lc).
+conservationStatus(platalea, lc).
+conservationStatus(pelecanidae, lc).
+conservationStatus(ardeidae, lc).
+conservationStatus(ardeidae, nt).
+conservationStatus(threskiornithdae, lc).
+conservationStatus(pelecaniformes, lc).
+conservationStatus(pelecaniformes, nt).
+%//////////////////////////////////////////////////////////////////////////////////////////
