@@ -184,12 +184,12 @@ isaStrict(A, B) :- convertToSpeciesName(A,X), isaStrictActual(X,B), \+ species(A
 isaStrict(A, B) :- convertToSpeciesName(B,Y), isaStrictActual(A,Y), \+ species(B).
 isaStrict(A, B) :- isaStrictActual(A,B), \+ species(A), \+species(B).
 
-isaStrictActual(A, B) :- A == B.
+isaStrictActual(A, B) :- A == B,( (species(A), species(B)); (genus(A), genus(B)); (family(A), family(B)); (order(A), order(B))).
 isaStrictActual(A, B) :- hasParent(A, C), hasParent(C, D), hasParent(D, B).
 isaStrictActual(A, B) :- hasParent(A, C), hasParent(C, B).
 isaStrictActual(A, B) :- hasParent(A,B).
 
-convertToSpeciesName(A,B) :- hasCompoundName(_ , B, A).
+convertToSpeciesName(A,B) :- hasCompoundName( _, B, A).
 rangesTo(X,Y):- var(X) -> hasCompoundName(_,_,X), rangeOf(X,Y).
 rangesTo(X,Y):- atom(X) -> rangeOf(X,Y).
 
@@ -257,10 +257,13 @@ synonym(A,B)	:-	(hasCommonName(A,B);hasCommonName(B,A);(hasCommonName(X,A),hasCo
 %Case where neither is a common Name
 
 
-isa(A,B) :- \+ var(A), hasCommonName(C,A), \+ var(B), hasCommonName(D,B), \+ species(A),\+ species(B), isaStrict(C,D).
-isa(A,B) :- \+ var(A), hasCommonName(C,A), \+ species(A),\+ species(B), isaStrict(C,B).
-isa(A,B) :- \+ var(B), hasCommonName(D,B), \+ species(A),\+ species(B), isaStrict(A,D).
-isa(A,B) :- \+ species(A), \+ species(B), isaStrict(A,B).
+isa(A,B) :- \+ var(A), hasCommonName(C,A), \+ var(B),hasCommonName(D,B), isaStrict(C,D).
+isa(A,B) :- \+ var(A), hasCommonName(C,A), isaStrict(C,B).
+isa(A,B) :- \+ var(B), hasCommonName(D,B), isaStrict(A,D).
+isa(A,B) :- isConverted(A,X), isConverted(B,Y), isaStrict(X,Y).
+isa(A,B) :- isConverted(A,X), isaStrict(X,B).
+isa(A,B) :- isConverted(B,Y), isaStrict(A,Y).
+isa(A,B) :- isaStrict(A,B).
 
 %v1.1
 %isa(A,B) :- isConverted(A, C), isConverted(B,D), isaStrict(C,D).
@@ -278,9 +281,10 @@ isa(A,B) :- \+ species(A), \+ species(B), isaStrict(A,B).
 %isa(A,B) :- hasSciName(A,E), isaStrict(E,B), E\==B.
 
 
-isConverted(A,B) :- hasCompoundName(_, B,A), \+species(A).
+isConverted(A,B) :- hasCompoundName(_, B ,A).
 
-%variable(X). true if X is a variable and fails if x is constant\not variable
+
+
 
 isaNonSpeciesName(X,Y) :- hasCommonName(A, X), hasCommonName(B,Y), isaStrict(X is A,Y is B).
 isaNonSpeciesName(X,Y) :- hasCommonName(A_1, _, X), hasCommonName(B_2, _, Y), isaStrict( X is A_1, Y is B_2).
