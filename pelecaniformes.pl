@@ -190,11 +190,6 @@ isaStrictActual(A, B) :- hasParent(A, C), hasParent(C, B).
 isaStrictActual(A, B) :- hasParent(A,B).
 
 convertToSpeciesName(A,B) :- hasCompoundName( _, B, A).
-rangesTo(X,Y):- var(X) -> hasCompoundName(_,_,X), rangeOf(X,Y).
-rangesTo(X,Y):- atom(X) -> rangeOf(X,Y).
-
-
-
 
 % rawName is a helper function that will provide the raw name from the compound name of a species.   
 rawName(pelecanus_erythrorhynchos,erythrorhynchos). 
@@ -243,6 +238,8 @@ hasParent2(A,B) :- rawName(A,_), speciesFullName(_,_,B,A,_).
 hasParent2(A,B) :- genus(A), speciesFullName(_,B,A,_,_). 
 hasParent2(A,B) :- family(A), speciesFullName(B,A,_,_,_). 
 
+rangesTo(X,Y):- var(X) -> hasCompoundName(_,_,X), rangeOf(X,Y).
+rangesTo(X,Y):- atom(X) -> rangeOf(X,Y).
 
 rangeOf(pelecaniformes, canada).
 rangeOf(pelecaniformes, alberta).
@@ -334,36 +331,6 @@ isConverted(A,B) :- hasCompoundName(_, B ,A).
 isaNonSpeciesName(X,Y) :- hasCommonName(A, X), hasCommonName(B,Y), isaStrict(X is A,Y is B).
 isaNonSpeciesName(X,Y) :- hasCommonName(A_1, _, X), hasCommonName(B_2, _, Y), isaStrict( X is A_1, Y is B_2).
 
-rangesTo(X,Y):- var(X) -> hasCompoundName(_,_,X), rangeOf(X,Y).
-rangesTo(X,Y):- atom(X) -> rangeOf(X,Y).
-
-rangeOf(pelecaniformes, canada).
-rangeOf(pelecaniformes, alberta).
-rangeOf(pelecanidae, canada).
-rangeOf(pelecanidae, alberta).
-rangeOf(pelecanus, canada).
-rangeOf(pelecanus, alberta).
-rangeOf(ardeidae, canada).
-rangeOf(ardeidae, alberta).
-rangeOf(botaurus, canada).
-rangeOf(botaurus, alberta).
-rangeOf(ixobrychus, canada).
-rangeOf(ardea, canada).
-rangeOf(ardea, alberta).
-rangeOf(butorides, canada).
-rangeOf(nycticorax, canada).
-rangeOf(nycticorax, alberta).
-rangeOf(pelecanus_erythrorhynchos, canada).
-rangeOf(pelecanus_erythrorhynchos, alberta).
-rangeOf(botaurus_lentiginosus, canada).
-rangeOf(botaurus_lentiginosus, alberta).
-rangeOf(ardea_herodias, canada).
-rangeOf(ardea_herodias, alberta).
-rangeOf(ardea_alba, canada).
-rangeOf(ixobrychus_exilis, canada).
-rangeOf(butorides_virescens, canada).
-rangeOf(nycticorax_nycticorax, canada).
-rangeOf(nycticorax_nycticorax, alberta).
 %/////////////////////////////
 habitat(X,Y):- var(X) -> hasCompoundName(_,_,X), habitatOf(X,Y).
 habitat(X,Y):- atom(X) -> habitatOf(X,Y).
