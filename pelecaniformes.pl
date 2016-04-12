@@ -1,9 +1,15 @@
+%order(?A).
+%This predicate will succeed if A is a order.
 order(pelecaniformes).
 
+%family(?A).
+%This predicate will succeed if A is a family
 family(pelecanidae).
 family(ardeidae).
 family(threskiornithdae).
 
+%genus(?A).
+%This predicate will succeed if A is a genus
 genus(pelecanus).
 genus(botaurus).
 genus(ixobrychus).
@@ -17,6 +23,9 @@ genus(eudocimus).
 genus(plegadis).
 genus(platalea).
 
+
+%species(?A).
+%This predicate will succeed if A is a species
 species(occidentalis).
 species(erythrorhynchos).
 species(lentiginosus).
@@ -175,20 +184,24 @@ hasCompoundName(plegadis, falcinellus, plegadis_falcinellus).
 hasCompoundName(plegadis, chihi, plegadis_chihi).
 hasCompoundName(platalea, ajaja, platalea_ajaja).
 
-%isaStrict(A, B) :- hasCompoundName(_, X, A), hasCompoundName(_, Y, B), isaStrict(X,Y).
-%isaStrict(A, B) :- hasCompoundName(_, X, A), isaStrict(X,B).
-%isaStirct(A, B) :- hasCompoundName(_, Y, B), isaStrict(A,Y).
 
+%isaStrict(?A, ?B).
+%isaStrict will succeed if A is the same as B or if A is an ancestor of B (The parent of A, the parent of the parent of A etc)
 isaStrict(A, B) :- convertToSpeciesName(A,X), convertToSpeciesName(B,Y), (\+ species(A); genus(A)), (\+species(B); genus(B)),  isaStrictActual(X,Y).
 isaStrict(A, B) :- convertToSpeciesName(A,X), isaStrictActual(X,B), (\+ species(A); genus(A)).
 isaStrict(A, B) :- convertToSpeciesName(B,Y), isaStrictActual(A,Y), (\+ species(B); genus(B)).
 isaStrict(A, B) :- isaStrictActual(A,B), (\+ species(A); genus(A)), (\+species(B); genus(B)).
 
+
+%isaStrictActual is a helper predicate for isaStrict
+%isaStrictActual is helpful with dealing with compound scpecies names
+%it is the fucnction that will actually see if A is the ancestor of B.
 isaStrictActual(A, B) :- A == B,( (species(A), species(B)); (genus(A), genus(B)); (family(A), family(B)); (order(A), order(B))).
 isaStrictActual(A, B) :- hasParent(A, C), hasParent(C, D), hasParent(D, B).
 isaStrictActual(A, B) :- hasParent(A, C), hasParent(C, B).
 isaStrictActual(A, B) :- hasParent(A,B).
 
+%converts A to its species name B if A has a species name, is a helper predicate
 convertToSpeciesName(A,B) :- hasCompoundName( _, B, A).
  
 % giveRaw is a function that will give us the raw name of a species given a compound name.
@@ -288,21 +301,17 @@ countSpecies(B, 0) :- \+((family(B);order(B);genus(B);hasCompoundName(_,_,B))).
 listsum([X], X).                  
 listsum([H|L], X):- listsum(L, Y), X is (H + Y).
 
-isNonSpeciesName(A) :- hasCompoundName( _, _, A); hasCommonName(_, _, A); hasCommonName( _ , A); hasSciName(A, _).
 
-
-isNonSpeciesName( A ,B) :- isNonSpeciesName(A), isNonSpeciesName(B).
 						 
 synonym(A,B)	:-	(hasCommonName(A,B);hasCommonName(B,A);(hasCommonName(X,A),hasCommonName(X,B),A\==B)).
 
 
 
 
-%Case where both are commonNames...
-%Case where one is a common Name
-%Case where one is a common Name
-%Case where neither is a common Name
 
+%isa(?A, ?B).
+%This predicate is similar to isaStrict, however will work with Common Names
+%However you can't have a variable be mapped to a common name in this predicate
 isa(A,B) :- \+ var(A), hasCommonName(C,A), \+ var(B),hasCommonName(D,B), isaStrict(C,D).
 isa(A,B) :- \+ var(A), hasCommonName(C,A), isNonCommonName(B), isaStrict(C,B).
 isa(A,B) :- \+ var(B), hasCommonName(D,B), isNonCommonName(A), isaStrict(A,D).
@@ -313,24 +322,14 @@ isa(A,B) :- isConverted(A,X), isaStrict(X,B).
 isa(A,B) :- isConverted(B,Y), isaStrict(A,Y).
 isa(A,B) :- isaStrict(A,B).
 
-%v1.1
-%isa(A,B) :- isConverted(A, C), isConverted(B,D), isaStrict(C,D).
-%isa(A,B) :- isConverted(A, C), isaStrict(C,B).
-%isa(A,B) :- isConverted(B, D), isaStrict(A,D).
-%isa(A,B) :- isaStrict(A,B).
 
 
-%v1.0
-%isa(A,B) :- A is hasSciName(X, A), B is hasSciName(Y,B), isaStrict(X,Y).
-%isa(A,B) :- synonym(A,C), synonym(B,D), isaStrict(C,D), C \==D.
-%isa(A,B) :- synonym(A,C), isaStrict(C,B), C\==B.
-%isa(A,B) :- synonym(B,D), isaStrict(A,D), A\==D.
-%isa(A,B) :- hasSciName(A,E), hasSciName(B,F), isaStrict(E,F), E\==F.
-%isa(A,B) :- hasSciName(A,E), isaStrict(E,B), E\==B.
-
-
+%Used to check if A has a Compound Name, helper to isa
 isConverted(A,B) :- hasCompoundName(_, B ,A).
 
+
+%This predicate is another helper of isa, checks if A is a compound name,
+%is a order, family or a genus
 isNonCommonName(A) :- hasCompoundName(_, _, A).
 isNonCommonName(A) :- order(A).
 isNonCommonName(A) :- family(A).
@@ -338,9 +337,6 @@ isNonCommonName(A) :- genus(A).
 
 
 
-
-isaNonSpeciesName(X,Y) :- hasCommonName(A, X), hasCommonName(B,Y), isaStrict(X is A,Y is B).
-isaNonSpeciesName(X,Y) :- hasCommonName(A_1, _, X), hasCommonName(B_2, _, Y), isaStrict( X is A_1, Y is B_2).
 
 
 %//////////////////////////////////////////////////////////////////////////////////////////
