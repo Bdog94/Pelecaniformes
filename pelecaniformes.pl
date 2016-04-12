@@ -254,11 +254,18 @@ hasParent2(A,B) :- giveRaw(A,_), provideFull(_,_,B,A,_).
 hasParent2(A,B) :- family(A), provideFull(B,A,_,_,_). 
 hasParent2(A,B) :- genus(A), provideFull(_,B,A,_,_). 
 
-
-
+/*
+ *	rangesTo(?X,?Y)
+ *
+ *	Gives us the ranges of compound species if X is a variable
+ *	Otherwise, gets the range of a given Genus, Order, Family, or Compound Species name.
+ */
 rangesTo(X,Y):- var(X) -> hasCompoundName(_,_,X), rangeOf(X,Y).
 rangesTo(X,Y):- atom(X) -> rangeOf(X,Y).
 
+/*
+ *	Database for of ranges for pelicans, used in rangesTo
+ */
 rangeOf(pelecaniformes, canada).
 rangeOf(pelecaniformes, alberta).
 rangeOf(pelecanidae, canada).
@@ -288,10 +295,14 @@ rangeOf(nycticorax_nycticorax, canada).
 rangeOf(nycticorax_nycticorax, alberta).
 
 
-%Counts how many species there are for B. N is the number that belong to it
-%If B is a compound name, then N is 1.
-%If B is an order, family, or genus name, then N is the number of species belonging to them
-%If B is anything else, N is 0.
+/*
+ *	countSpecies(?B,?N)
+ *
+ *	Counts how many species there are for B. N is the number that belong to it
+ *	- If B is a compound name, then N is 1.
+ *	- If B is an order, family, or genus name, then N is the number of species belonging to them
+ *	- If B is anything else, N is 0.
+*/
 countSpecies(B, N) :- hasCompoundName(_,_,B) -> N is 1.
 countSpecies(B, N) :- genus(B) -> findall(X, hasParent(X,B), L) -> length(L, Y), N is Y.
 countSpecies(B, N) :- (family(B); order(B)) -> findall(X, hasParent(X,B), L) -> maplist(countSpecies, L, L1) -> listsum(L1, N).
@@ -302,7 +313,14 @@ listsum([X], X).
 listsum([H|L], X):- listsum(L, Y), X is (H + Y).
 
 
-						 
+/*
+ *	synonym(?A,?B)
+ *
+ *	Checks if two names are a synonym of each other
+ *	Two names are synonyms if:
+ *	- A is a common name of B or vice versa
+ *	- A and B are common names of another name X, but A and B are not the same.
+*/						 
 synonym(A,B)	:-	(hasCommonName(A,B);hasCommonName(B,A);(hasCommonName(X,A),hasCommonName(X,B),A\==B)).
 
 
