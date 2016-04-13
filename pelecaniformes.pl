@@ -1,3 +1,6 @@
+%CPSC 449 Prolog Assignment
+%By: Arthur Iwaniszyn, Kyle Perry and Bernie Mayer.
+
 %order(?A).
 %This predicate will succeed if A is a order.
 order(pelecaniformes).
@@ -45,6 +48,8 @@ species(falcinellus).
 species(chihi).
 species(ajaja).
 
+%hasParent(?A, ?B).
+%This predicate will succeed if B is a direct parent of A.
 hasParent(ajaja, platalea).
 hasParent(chihi, plegadis).
 hasParent(falcinellus, plegadis).
@@ -79,6 +84,8 @@ hasParent(threskiornithdae, pelecaniformes).
 hasParent(ardeidae, pelecaniformes).
 hasParent(pelecanidae, pelecaniformes).
 
+%hasCommonName(?N, ?C).
+%This predicate will succeed if The taxonomical name N has a common name C. If N is a species name, it must be a compound name.
 hasCommonName(pelecanus_erythrorhynchos, americanWhitePelican).
 hasCommonName(pelecanus_occidentalis, brownPelican).
 hasCommonName(botaurus_lentiginosus, americanBittern).
@@ -111,6 +118,8 @@ hasCommonName(eudocimus, ibis).
 hasCommonName(plegadis, ibis).
 hasCommonName(platalea, spoonbill).
 
+%hasCommonName(?G, ?S, ?C).
+%this predicate succeeds if a species described by a genus G and raw species name S, has a common name C.
 hasCommonName(pelecanus, erythrorhynchos, americanWhitePelican).
 hasCommonName(pelecanus, occidentalis, brownPelican).
 hasCommonName(botaurus, lentiginosus, americanBittern).
@@ -130,9 +139,9 @@ hasCommonName(plegadis, falcinellus, glossyIbis).
 hasCommonName(plegadis, chihi, whiteFacedIbis).
 hasCommonName(platalea, ajaja, roseateSpoonbill).
 
-
-% just realized, we dont have to hardcode the rest after this comment
-
+%hasSciName(?C, ?N).
+%N is a compound taxonomical name for some species that has a common name C, or N is an order, family, or genus that has a common name C.
+%this predicate succeeds if B is a compound taxonomical name for some species that has the common name A, or B is an order, family or genus that has the common name C.
 hasSciName(roeateSpoonbill, platalea_ajaja).
 hasSciName(whiteFacedIbis, plegadis_chihi).
 hasSciName(glossyIbis, plegadis_falcinellus).
@@ -165,6 +174,8 @@ hasSciName(ibis, eudocimus).
 hasSciName(ibis, plegadis).
 hasSciName(spoonbill, platalea).
 
+%hasCompoundName(?G, ?S, ?N).
+%This predicate succeeds if N is a compound name for the genus G and species S.
 hasCompoundName(pelecanus, erythrorhynchos, pelecanus_erythrorhynchos).
 hasCompoundName(pelecanus, occidentalis, pelecanus_occidentalis).
 hasCompoundName(botaurus, lentiginosus, botaurus_lentiginosus).
@@ -187,6 +198,7 @@ hasCompoundName(platalea, ajaja, platalea_ajaja).
 
 %isaStrict(?A, ?B).
 %isaStrict will succeed if A is the same as B or if A is an ancestor of B (The parent of A, the parent of the parent of A etc)
+
 isaStrict(A, B) :- convertToSpeciesName(A,X), convertToSpeciesName(B,Y), (\+ species(A); genus(A)), (\+species(B); genus(B)),  isaStrictActual(X,Y).
 isaStrict(A, B) :- convertToSpeciesName(A,X), isaStrictActual(X,B), (\+ species(A); genus(A)).
 isaStrict(A, B) :- convertToSpeciesName(B,Y), isaStrictActual(A,Y), (\+ species(B); genus(B)).
@@ -196,12 +208,14 @@ isaStrict(A, B) :- isaStrictActual(A,B), (\+ species(A); genus(A)), (\+species(B
 %isaStrictActual is a helper predicate for isaStrict
 %isaStrictActual is helpful with dealing with compound scpecies names
 %it is the fucnction that will actually see if A is the ancestor of B.
+
 isaStrictActual(A, B) :- A == B,( (species(A), species(B)); (genus(A), genus(B)); (family(A), family(B)); (order(A), order(B))).
 isaStrictActual(A, B) :- hasParent(A, C), hasParent(C, D), hasParent(D, B).
 isaStrictActual(A, B) :- hasParent(A, C), hasParent(C, B).
 isaStrictActual(A, B) :- hasParent(A,B).
 
 %converts A to its species name B if A has a species name, is a helper predicate
+
 convertToSpeciesName(A,B) :- hasCompoundName( _, B, A).
  
 % giveRaw is a function that will give us the raw name of a species given a compound name.
@@ -249,7 +263,8 @@ provideFull(pelecaniformes,threskiornithdae,platalea,platalea_ajaja,roseateSpoon
 
 
 
-% hasParent2(A,B) return true if A is a compound name and if B is its parent.  
+% hasParent2(A,B) return true if A is a compound name and if B is its parent. 
+ 
 hasParent2(A,B) :- giveRaw(A,_), provideFull(_,_,B,A,_). 
 hasParent2(A,B) :- family(A), provideFull(B,A,_,_,_). 
 hasParent2(A,B) :- genus(A), provideFull(_,B,A,_,_). 
@@ -309,6 +324,7 @@ countSpecies(B, N) :- (family(B); order(B)) -> findall(X, hasParent(X,B), L) -> 
 countSpecies(B, 0) :- \+((family(B);order(B);genus(B);hasCompoundName(_,_,B))).
 
 %Sums a list of numbers together. X is the sum of the list
+
 listsum([X], X).                  
 listsum([H|L], X):- listsum(L, Y), X is (H + Y).
 
@@ -330,6 +346,7 @@ synonym(A,B)	:-	(hasCommonName(A,B);hasCommonName(B,A);(hasCommonName(X,A),hasCo
 %isa(?A, ?B).
 %This predicate is similar to isaStrict, however will work with Common Names
 %However you can't have a variable be mapped to a common name in this predicate
+
 isa(A,B) :- \+ var(A), hasCommonName(C,A), \+ var(B),hasCommonName(D,B), isaStrict(C,D).
 isa(A,B) :- \+ var(A), hasCommonName(C,A), isNonCommonName(B), isaStrict(C,B).
 isa(A,B) :- \+ var(B), hasCommonName(D,B), isNonCommonName(A), isaStrict(A,D).
@@ -343,11 +360,13 @@ isa(A,B) :- isaStrict(A,B).
 
 
 %Used to check if A has a Compound Name, helper to isa
+
 isConverted(A,B) :- hasCompoundName(_, B ,A).
 
 
 %This predicate is another helper of isa, checks if A is a compound name,
 %is a order, family or a genus
+
 isNonCommonName(A) :- hasCompoundName(_, _, A).
 isNonCommonName(A) :- order(A).
 isNonCommonName(A) :- family(A).
@@ -358,8 +377,14 @@ isNonCommonName(A) :- genus(A).
 
 
 %//////////////////////////////////////////////////////////////////////////////////////////
+
+%habitat(?A, ?B).
+%this predicate succeeds if A prefers a habitat of B, where B is lakePond, ocean, or marsh. A may be a compound species name, genus, family, or order, but may not be a raw species name.
+
 habitat(X,Y):- var(X) -> hasCompoundName(_,_,X), habitatOf(X,Y).
 habitat(X,Y):- atom(X) -> habitatOf(X,Y).
+
+%this is where we store the habitats of different pelicans, we use this in our habitat predicate.
 
 habitatOf(pelecanus_erythrorhynchos, lakePond).
 habitatOf(pelecanus_occidentalis, ocean).
@@ -401,8 +426,14 @@ habitatOf(pelecaniformes, marsh).
 %//////////////////////////////////////////////////////////////////////////////////////////
 
 %//////////////////////////////////////////////////////////////////////////////////////////
+
+%food(?A, ?B).
+%This predicate returns true if A prefers to eat B. A may be a compound species name, genus, family or order, but cannot be a raw species name.
+
 food(X,Y):- var(X) -> hasCompoundName(_,_,X), foodOf(X,Y).
 food(X,Y):- atom(X) -> foodOf(X,Y).
+
+%This is where we store the foods that different pelicans eat. We use this in our food predicate.  
 
 foodOf(pelecanus_erythrorhynchos, fish).
 foodOf(pelecanus_occidentalis, fish).
@@ -443,8 +474,13 @@ foodOf(pelecaniformes, fish).
 %//////////////////////////////////////////////////////////////////////////////////////////
 
 %//////////////////////////////////////////////////////////////////////////////////////////
+%nesting(?A, ?B).
+%This predicate returns true if A prefers to nest in B. A may be a compound species name, genus, family, or order, but cannot be a raw species name.
+
 nesting(X,Y):- var(X) -> hasCompoundName(_,_,X), nestingOf(X,Y).
 nesting(X,Y):- atom(X) -> nestingOf(X,Y).
+
+%This is where we store the nesting information of different pelicans, we use this in our nesting predicate.
 
 nestingOf(pelecanus_erythrorhynchos, ground).
 nestingOf(pelecanus_occidentalis, tree).
@@ -488,11 +524,14 @@ nestingOf(pelecaniformes, tree).
 %//////////////////////////////////////////////////////////////////////////////////////////
 
 %//////////////////////////////////////////////////////////////////////////////////////////
-%behavior is a predicate that will provide us with the behavior of a compound species name, genus, family, or order but not a raw name.
+%behavior(?A, ?B).
+%behavior is a predicate that will return true if B is the behavior of A, where A is a compound species name, genus, family, or order but not a raw name.
+
 behavior(X,Y):- var(X) -> hasCompoundName(_,_,X), behaviorOf(X,Y).
 behavior(X,Y):- atom(X) -> behaviorOf(X,Y).
 
 %this is where we store the behaviors of different pelicans, we use this in our behavior predicate.
+
 behaviorOf(pelecanus_erythrorhynchos, surfaceDive).
 behaviorOf(pelecanus_occidentalis, aerialDive).
 behaviorOf(botaurus_lentiginosus, stalking).
@@ -536,12 +575,15 @@ behaviorOf(pelecaniformes, groundForager).
 %//////////////////////////////////////////////////////////////////////////////////////////
 
 %//////////////////////////////////////////////////////////////////////////////////////////
-%conservation is a predicate that will provide us with the conservation status of a compound species name, genus, family, or order, but not a raw name
+%conservation(?A, ?B).
+%conservation is a predicate that will return true if B is the conservation status of A, A may be a compound species name, genus, family, or order, but may not be a raw species name.
+
 conservation(X,Y):- var(X) -> hasCompoundName(_,_,X), conservationStatus(X,Y).
 conservation(X,Y):- atom(X) -> conservationStatus(X,Y).
 
 
 %conservationStatus is where we store the conservation statuses of different pelicans, we use this in our conservation 
+
 conservationStatus(pelecanus_erythrorhynchos, lc).
 conservationStatus(pelecanus_occidentalis, lc).
 conservationStatus(botaurus_lentiginosus, lc).
