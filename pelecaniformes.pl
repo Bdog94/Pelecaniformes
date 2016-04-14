@@ -86,24 +86,24 @@ hasParent(pelecanidae, pelecaniformes).
 
 %hasCommonName(?N, ?C).
 %This predicate will succeed if The taxonomical name N has a common name C. If N is a species name, it must be a compound name.
-hasCommonName(pelecanus_erythrorhynchos, americanWhitePelican).
-hasCommonName(pelecanus_occidentalis, brownPelican).
-hasCommonName(botaurus_lentiginosus, americanBittern).
-hasCommonName(ixobrychus_exilis, leastBittern).
-hasCommonName(ardea_herodias, greatBlueHeron).
-hasCommonName(ardea_alba, greatEgret).
-hasCommonName(egretta_thula, snowyEgret).
-hasCommonName(egretta_caerulea, littleBlueHeron).
-hasCommonName(egretta_tricolor, tricoloredHeron).
-hasCommonName(egretta_rufescens, reddishEgret).
-hasCommonName(bubulcus_ibis, cattleEgret).
-hasCommonName(butorides_virescens, greenHeron).
-hasCommonName(nycticorax_nycticorax, nycticorax).
-hasCommonName(nyctanassa_violacea, yellowCrownedNightHeron).
-hasCommonName(eudocimus_albus, whiteIbis).
-hasCommonName(plegadis_falcinellus, glossyIbis).
-hasCommonName(plegadis_chihi, whiteFacedIbis).
-hasCommonName(platalea_ajaja, roseateSpoonbill).
+hasCommonName(Y, americanWhitePelican):- (atom_concat('pelecanus_', 'erythrorhynchos', Y)).
+hasCommonName(Y, brownPelican):- (atom_concat('pelecanus_', 'occidentalis', Y)).
+hasCommonName(Y, americanBittern):- (atom_concat('botaurus_', 'lentiginosus', Y)).
+hasCommonName(Y, leastBittern):- (atom_concat('ixobrychus_', 'exilis', Y)).
+hasCommonName(Y, greatBlueHeron):- (atom_concat('ardea_', 'herodias', Y)).
+hasCommonName(Y, greatEgret):- (atom_concat('ardea_', 'alba', Y)).
+hasCommonName(Y, snowyEgret):- (atom_concat('egretta_', 'thula', Y)).
+hasCommonName(Y, littleBlueHeron):- (atom_concat('egretta_', 'caerulea', Y)).
+hasCommonName(Y, tricoloredHeron):- (atom_concat('egretta_', 'tricolor', Y)).
+hasCommonName(Y, reddishEgret):- (atom_concat('egretta_', 'rufescens', Y)).
+hasCommonName(Y, cattleEgret):- (atom_concat('bubulcus_', 'ibis', Y)).
+hasCommonName(Y, greenHeron):- (atom_concat('butorides_', 'virescens', Y)).
+hasCommonName(Y, nycticorax):- (atom_concat('nycticorax_', 'nycticorax', Y)).
+hasCommonName(Y, yellowCrownedNightHeron):- (atom_concat('nyctanassa_', 'violacea', Y)).
+hasCommonName(Y, whiteIbis):- (atom_concat('eudocimus_', 'albus', Y)).
+hasCommonName(Y, glossyIbis):- (atom_concat('plegadis_', 'falcinellus', Y)).
+hasCommonName(Y, whiteFacedIbis):- (atom_concat('plegadis_', 'chihi', Y)).
+hasCommonName(Y, roseateSpoonbill) :- (atom_concat('platalea_', 'ajaja', Y)). 
 hasCommonName(pelecanus, pelican).
 hasCommonName(botaurus, bittern).
 hasCommonName(ixobrychus, bittern).
@@ -141,59 +141,43 @@ hasCommonName(platalea, ajaja, roseateSpoonbill).
 
 %hasSciName(?C, ?N).
 %N is a compound taxonomical name for some species that has a common name C, or N is an order, family, or genus that has a common name C.
-%this predicate succeeds if B is a compound taxonomical name for some species that has the common name A, or B is an order, family or genus that has the common name C.
-hasSciName(roeateSpoonbill, platalea_ajaja).
-hasSciName(whiteFacedIbis, plegadis_chihi).
-hasSciName(glossyIbis, plegadis_falcinellus).
-hasSciName(whiteIbis, eudocimus_albus).
-hasSciName(yellowCrownedNightHeron, nyctanassa_violacea).
-hasSciName(blackCrownedNightHeron, nycticorax_nycticorax).
-hasSciName(greenHeron, butorides_virescens).
-hasSciName(cattleEgret, bubulcus_ibis).
-hasSciName(reddishEgret, egretta_rufescens).
-hasSciName(tricoloredHeron, egretta_tricolor).
-hasSciName(littleBlueHeron, egretta_caerulea).
-hasSciName(snowyEgret, egretta_thula).
-hasSciName(greatEgret, ardea_alba).
-hasSciName(greatBlueHeron, ardea_herodias).
-hasSciName(leastBittern, ixobrychus_exilis).
-hasSciName(americanBittern, botaurus_lentiginosus).
-hasSciName(brownPelican, pelecanus_occidentalis).
-hasSciName(americanWhitePelican, pelecanus_erythrorhynchos).
-hasSciName(pelican, pelecanus).
-hasSciName(bittern, botaurus).
-hasSciName(bittern, ixobrychus).
-hasSciName(heron, ardea).
-hasSciName(heron, egretta).
-hasSciName(egret, egretta).
-hasSciName(egret, bubulcus).
-hasSciName(heron, butorides).
-hasSciName(nightHeron, nycticorax).
-hasSciName(nightHeron, nyctanassa).
-hasSciName(ibis, eudocimus).
-hasSciName(ibis, plegadis).
-hasSciName(spoonbill, platalea).
+hasSciName(C,N) :-commonAndGenus(N,C);provideFull(_,_,_,N,C).
+
+% commonAndGenus is a predicate that is used in hasSciName, it returns true if a the common name has the genus.  
+commonAndGenus(pelecanus, pelican).
+commonAndGenus(botaurus, bittern).
+commonAndGenus(ixobrychus,bittern).
+commonAndGenus(ardea,heron).
+commonAndGenus(egretta,heron).
+commonAndGenus(egretta,egret).
+commonAndGenus(bublucus,egret).
+commonAndGenus(butorides,heron).
+commonAndGenus(nycticorax, nightHeron).
+commonAndGenus(nyctanassa, nightHeron).
+commonAndGenus(eudocimus, ibis).
+commonAndGenus(plegadis, ibis).
+commonAndGenus(platalea,spoonbill).
 
 %hasCompoundName(?G, ?S, ?N).
 %This predicate succeeds if N is a compound name for the genus G and species S.
-hasCompoundName(pelecanus, erythrorhynchos, pelecanus_erythrorhynchos).
-hasCompoundName(pelecanus, occidentalis, pelecanus_occidentalis).
-hasCompoundName(botaurus, lentiginosus, botaurus_lentiginosus).
-hasCompoundName(ixobrychus, exilis, ixobrychus_exilis).
-hasCompoundName(ardea, herodias, ardea_herodias).
-hasCompoundName(ardea, alba, ardea_alba).
-hasCompoundName(egretta, thula, egretta_thula).
-hasCompoundName(egretta, caerulea, egretta_caerulea).
-hasCompoundName(egretta, tricolor, egretta_tricolor).
-hasCompoundName(egretta, rufescens, egretta_rufescens).
-hasCompoundName(bubulcus, ibis, bubulcus_ibis).
-hasCompoundName(butorides, virescens, butorides_virescens).
-hasCompoundName(nycticorax, nycticorax, nycticorax_nycticorax).
-hasCompoundName(nyctanassa, violacea, nyctanassa_violacea).
-hasCompoundName(eudocimus, albus, eudocimus_albus).
-hasCompoundName(plegadis, falcinellus, plegadis_falcinellus).
-hasCompoundName(plegadis, chihi, plegadis_chihi).
-hasCompoundName(platalea, ajaja, platalea_ajaja).
+hasCompoundName(pelecanus, erythrorhynchos, Y):- (atom_concat('pelecanus_', 'erythrorhynchos', Y)).
+hasCompoundName(pelecanus, occidentalis, Y):- (atom_concat('pelecanus_', 'occidentalis', Y)).
+hasCompoundName(botaurus, lentiginosus, Y):- (atom_concat('botaurus_', 'lentiginosus', Y)).
+hasCompoundName(ixobrychus, exilis, Y):- (atom_concat('ixobrychus_', 'exilis', Y)).
+hasCompoundName(ardea, herodias, Y):- (atom_concat('ardea_', 'herodias', Y)).
+hasCompoundName(ardea, alba, Y):- (atom_concat('ardea_', 'alba', Y)).
+hasCompoundName(egretta, thula, Y):- (atom_concat('egretta_', 'thula', Y)).
+hasCompoundName(egretta, caerulea, Y):- (atom_concat('egretta_', 'caerulea', Y)).
+hasCompoundName(egretta, tricolor, Y):- (atom_concat('egretta_', 'tricolor', Y)).
+hasCompoundName(egretta, rufescens, Y):- (atom_concat('egretta_', 'rufescens', Y)).
+hasCompoundName(bubulcus, ibis, Y):- (atom_concat('bubulcus_', 'ibis', Y)).
+hasCompoundName(butorides, virescens, Y):- (atom_concat('butorides_', 'virescens', Y)).
+hasCompoundName(nycticorax, nycticorax, Y):- (atom_concat('nycticorax_', 'nycticorax', Y)).
+hasCompoundName(nyctanassa, violacea, Y):- (atom_concat('nyctanassa_', 'violacea', Y)).
+hasCompoundName(eudocimus, albus, Y):- (atom_concat('eudocimus_', 'albus', Y)).
+hasCompoundName(plegadis, falcinellus, Y) :- (atom_concat('plegadis_', 'falcinellus', Y)).
+hasCompoundName(plegadis, chihi, Y) :- (atom_concat('plegadis_', 'chihi', Y)).
+hasCompoundName(platalea, ajaja, Y) :- (atom_concat('platalea_', 'ajaja', Y)).
 
 
 %isaStrict(?A, ?B).
@@ -220,46 +204,46 @@ convertToSpeciesName(A,B) :- hasCompoundName( _, B, A).
  
 % giveRaw is a function that will give us the raw name of a species given a compound name.
 
-giveRaw(pelecanus_erythrorhynchos,erythrorhynchos). 
-giveRaw(pelecanus_occidentalis,occidentalis). 
-giveRaw(botaurus_lentiginosus,lentiginosus). 
-giveRaw(ixobrychus_exilis,exilis). 
-giveRaw(ardea_herodias,herodias). 
-giveRaw(ardea_alba,alba). 
-giveRaw(egretta_thula,thula). 
-giveRaw(egretta_caerulea,caerulea). 
-giveRaw(egretta_tricolor,tricolor). 
-giveRaw(egretta_rufescens,rufescens). 
-giveRaw(bubulcus_ibis,ibis). 
-giveRaw(butorides_virescens,virescens). 
-giveRaw(nycticorax_nycticorax,nycticorax). 
-giveRaw(nyctanassa_violacea,violacea). 
-giveRaw(eudocimus_albus,albus). 
-giveRaw(plegadis_falcinellus,falcinellus). 
-giveRaw(plegadis_chihi,chihi). 
-giveRaw(platalea_ajaja,ajaja). 
+giveRaw(Y,erythrorhynchos):- (atom_concat('pelecanus_', 'erythrorhynchos', Y)). 
+giveRaw(Y,occidentalis):- (atom_concat('pelecanus_', 'occidentalis', Y)). 
+giveRaw(Y,lentiginosus):- (atom_concat('botaurus_', 'lentiginosus', Y)). 
+giveRaw(Y,exilis):- (atom_concat('ixobrychus_', 'exilis', Y)).
+giveRaw(Y,herodias):- (atom_concat('ardea_', 'herodias', Y)).
+giveRaw(Y,alba):- (atom_concat('ardea_', 'alba', Y)). 
+giveRaw(Y,thula):- (atom_concat('egretta_', 'thula', Y)).
+giveRaw(Y,caerulea):- (atom_concat('egretta_', 'caerulea', Y)). 
+giveRaw(Y,tricolor):- (atom_concat('egretta_', 'tricolor', Y)). 
+giveRaw(Y,rufescens):- (atom_concat('egretta_', 'rufescens', Y)).
+giveRaw(Y,ibis):- (atom_concat('bubulcus_', 'ibis', Y)). 
+giveRaw(Y,virescens):- (atom_concat('butorides_', 'virescens', Y)).
+giveRaw(Y,nycticorax):- (atom_concat('nycticorax_', 'nycticorax', Y)).
+giveRaw(Y,violacea):- (atom_concat('nyctanassa_', 'violacea', Y)).
+giveRaw(Y,albus):- (atom_concat('eudocimus_', 'albus', Y)). 
+giveRaw(Y,falcinellus):- (atom_concat('plegadis_', 'falcinellus', Y)).
+giveRaw(Y,chihi):- (atom_concat('plegadis_', 'chihi', Y)). 
+giveRaw(Y,ajaja):- (atom_concat('platalea_', 'ajaja', Y)). 
 
 
 % provideFull is a function that will give us the order, family, genus, species and common name of the species.
   
-provideFull(pelecaniformes,pelecanidae,pelecanus,pelecanus_erythrorhynchos,americanWhitePelican). 
-provideFull(pelecaniformes,pelecanidae,pelecanus,pelecanus_occidentalis,brownPelican). 
-provideFull(pelecaniformes,ardeidae,botaurus,botaurus_lentiginosus,americanBittern). 
-provideFull(pelecaniformes,ardeidae,ixobrychus,ixobrychus_exilis,leastBittern). 
-provideFull(pelecaniformes,ardeidae,ardea,ardea_herodias,greatBlueHeron). 
-provideFull(pelecaniformes,ardeidae,ardea,ardea_alba,greatEgret). 
-provideFull(pelecaniformes,ardeidae,egretta,egretta_thula,snowyEgret). 
-provideFull(pelecaniformes,ardeidae,egretta,egretta_caerulea,littleBlueHeron). 
-provideFull(pelecaniformes,ardeidae,egretta,egretta_tricolor,tricoloredHeron). 
-provideFull(pelecaniformes,ardeidae,egretta,egretta_rufescens,reddishEgret). 
-provideFull(pelecaniformes,ardeidae,bubulcus,bubulcus_ibis,cattleEgret). 
-provideFull(pelecaniformes,ardeidae,butorides,butorides_virescens,greenHeron). 
-provideFull(pelecaniformes,ardeidae,nycticorax,nycticorax_nycticorax,blackCrownedNightHeron). 
-provideFull(pelecaniformes,ardeidae,nyctanassa,nyctanassa_violacea,yellowCrownedNightHeron). 
-provideFull(pelecaniformes,threskiornithdae,eudocimus,eudocimus_albus,whiteIbis). 
-provideFull(pelecaniformes,threskiornithdae,plegadis,plegadis_falcinellus,glossyIbis). 
-provideFull(pelecaniformes,threskiornithdae,plegadis,plegadis_chihi,whiteFacedIbis). 
-provideFull(pelecaniformes,threskiornithdae,platalea,platalea_ajaja,roseateSpoonbill). 
+provideFull(pelecaniformes, pelecanidae, pelecanus, Y, americanWhitePelican):- (atom_concat('pelecanus_', 'erythrorhynchos', Y)). 
+provideFull(pelecaniformes, pelecanidae, pelecanus, Y, brownPelican):- (atom_concat('pelecanus_', 'occidentalis', Y)). 
+provideFull(pelecaniformes, ardeidae, botaurus, Y, americanBittern):- (atom_concat('botaurus_', 'lentiginosus', Y)).  
+provideFull(pelecaniformes, ardeidae, ixobrychus, Y, leastBittern):- (atom_concat('ixobrychus_', 'exilis', Y)).
+provideFull(pelecaniformes, ardeidae, ardea, Y, greatBlueHeron):- (atom_concat('ardea_', 'herodias', Y)).
+provideFull(pelecaniformes, ardeidae, ardea,Y,greatEgret):- (atom_concat('ardea_', 'alba', Y)).  
+provideFull(pelecaniformes, ardeidae, egretta, Y, snowyEgret):- (atom_concat('egretta_', 'thula', Y)). 
+provideFull(pelecaniformes, ardeidae,egretta, Y, littleBlueHeron):- (atom_concat('egretta_', 'caerulea', Y)). 
+provideFull(pelecaniformes, ardeidae,egretta, Y, tricoloredHeron):- (atom_concat('egretta_', 'tricolor', Y)). 
+provideFull(pelecaniformes, ardeidae,egretta, Y, reddishEgret):- (atom_concat('egretta_', 'rufescens', Y)). 
+provideFull(pelecaniformes, ardeidae,bubulcus, Y, cattleEgret):- (atom_concat('bubulcus_', 'ibis', Y)). 
+provideFull(pelecaniformes, ardeidae,butorides, Y, greenHeron):- (atom_concat('butorides_', 'virescens', Y)). 
+provideFull(pelecaniformes, ardeidae,nycticorax, Y, blackCrownedNightHeron):- (atom_concat('nycticorax_', 'nycticorax', Y)). 
+provideFull(pelecaniformes, ardeidae,nyctanassa, Y, yellowCrownedNightHeron):- (atom_concat('nyctanassa_', 'violacea', Y)). 
+provideFull(pelecaniformes, threskiornithdae, eudocimus, Y, whiteIbis):- (atom_concat('eudocimus_', 'albus', Y)).  
+provideFull(pelecaniformes, threskiornithdae, plegadis, Y, glossyIbis):- (atom_concat('plegadis_', 'falcinellus', Y)).
+provideFull(pelecaniformes, threskiornithdae, plegadis, Y, whiteFacedIbis):- (atom_concat('plegadis_', 'chihi', Y)).  
+provideFull(pelecaniformes, threskiornithdae, platalea, Y, roseateSpoonbill) :- (atom_concat('platalea_', 'ajaja', Y)). 
 
 
 
